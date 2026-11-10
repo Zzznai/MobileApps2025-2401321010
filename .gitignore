@@ -33,3 +33,9 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# OS files
+.DS_Store
+
+# Release APK required by the course in /apk
+!/apk/app-release.apk
