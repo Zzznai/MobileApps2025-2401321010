@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlantCare">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.list.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.PlantCare"
@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.detail.PlantDetailActivity"
+            android:exported="false"
+            android:label="@string/title_plant_details"
+            android:parentActivityName=".ui.list.MainActivity" />
     </application>
 
 </manifest>

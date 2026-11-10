@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">PlantCare</string>
+
+    <string name="title_my_plants">Моите растения</string>
+    <string name="title_plant_details">Детайли за растение</string>
+    <string name="navigate_back">Назад</string>
+
+    <string name="label_species">Вид</string>
+    <string name="label_interval">Поливане</string>
+    <string name="label_last_watered">Последно поливане</string>
+    <string name="label_next_watering">Следващо поливане</string>
+    <string name="label_status">Статус</string>
+    <string name="plant_not_found">Растението не е намерено</string>
+
+    <string name="watering_today">Полей днес!</string>
+    <plurals name="watering_in_days">
+        <item quantity="one">Полей след %d ден</item>
+        <item quantity="other">Полей след %d дни</item>
+    </plurals>
+    <plurals name="watering_overdue">
+        <item quantity="one">Закъсняло поливане с %d ден!</item>
+        <item quantity="other">Закъсняло поливане с %d дни!</item>
+    </plurals>
+    <plurals name="every_n_days">
+        <item quantity="one">всеки ден</item>
+        <item quantity="other">на всеки %d дни</item>
+    </plurals>
 </resources>
