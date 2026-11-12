@@ -70,6 +70,18 @@
                 app:layout_constraintTop_toBottomOf="@id/tvName"
                 tools:text="Ficus elastica" />
 
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSpecies"
+                tools:text="Тропически" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardWatering"
                 style="@style/Widget.Material3.CardView.Filled"
@@ -78,7 +90,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSpecies">
+                app:layout_constraintTop_toBottomOf="@id/tvCategory">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

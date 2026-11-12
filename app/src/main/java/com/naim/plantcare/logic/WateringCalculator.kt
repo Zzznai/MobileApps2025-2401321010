@@ -1,6 +1,6 @@
 package com.naim.plantcare.logic
 
-import com.naim.plantcare.model.Plant
+import com.naim.plantcare.data.entity.Plant
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 

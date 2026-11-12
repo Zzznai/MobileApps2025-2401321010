@@ -11,6 +11,8 @@
     <string name="label_next_watering">Следващо поливане</string>
     <string name="label_status">Статус</string>
     <string name="plant_not_found">Растението не е намерено</string>
+    <string name="no_category">Без категория</string>
+    <string name="no_plants">Все още нямате растения</string>
 
     <string name="watering_today">Полей днес!</string>
     <plurals name="watering_in_days">

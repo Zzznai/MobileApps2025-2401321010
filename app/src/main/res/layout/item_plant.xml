@@ -52,6 +52,17 @@
             tools:text="Ficus elastica" />
 
         <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceLabelMedium"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvSpecies"
+            tools:text="Тропически" />
+
+        <TextView
             android:id="@+id/tvStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -59,7 +70,7 @@
             android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvName"
-            app:layout_constraintTop_toBottomOf="@id/tvSpecies"
+            app:layout_constraintTop_toBottomOf="@id/tvCategory"
             tools:text="Полей след 4 дни" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

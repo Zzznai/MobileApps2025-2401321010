@@ -1,7 +1,7 @@
 package com.naim.plantcare.logic
 
+import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.logic.WateringCalculator.WateringStatus
-import com.naim.plantcare.model.Plant
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.LocalDate
@@ -11,7 +11,14 @@ class WateringCalculatorTest {
     private val calculator = WateringCalculator { today }
 
     private fun plant(interval: Int, lastWatered: LocalDate) =
-        Plant(1, "Фикус", "Ficus elastica", interval, lastWatered)
+        Plant(
+            id = 1,
+            name = "Фикус",
+            species = "Ficus elastica",
+            wateringIntervalDays = interval,
+            lastWatered = lastWatered,
+            categoryId = null
+        )
 
     @Test
     fun nextWatering_isLastWateredPlusInterval() {

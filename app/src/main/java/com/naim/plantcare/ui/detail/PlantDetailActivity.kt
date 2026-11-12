@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.naim.plantcare.R
+import com.naim.plantcare.data.PlantCareDatabase
+import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.WateringStatusText
 import java.time.format.DateTimeFormatter
@@ -21,12 +23,16 @@ class PlantDetailActivity : AppCompatActivity() {
         private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     }
 
-    private val viewModel: PlantDetailViewModel by viewModels()
+    private val viewModel: PlantDetailViewModel by viewModels {
+        val db = PlantCareDatabase.getInstance(applicationContext)
+        PlantDetailViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao()))
+    }
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tvInitial: TextView
     private lateinit var tvName: TextView
     private lateinit var tvSpecies: TextView
+    private lateinit var tvCategory: TextView
     private lateinit var tvStatus: TextView
     private lateinit var tvInterval: TextView
     private lateinit var tvLastWatered: TextView
@@ -46,6 +52,7 @@ class PlantDetailActivity : AppCompatActivity() {
         tvInitial = findViewById(R.id.tvInitial)
         tvName = findViewById(R.id.tvName)
         tvSpecies = findViewById(R.id.tvSpecies)
+        tvCategory = findViewById(R.id.tvCategory)
         tvStatus = findViewById(R.id.tvStatus)
         tvInterval = findViewById(R.id.tvInterval)
         tvLastWatered = findViewById(R.id.tvLastWatered)
@@ -62,9 +69,7 @@ class PlantDetailActivity : AppCompatActivity() {
             }
         }
 
-        if (savedInstanceState == null) {
-            viewModel.loadPlant(intent.getLongExtra(EXTRA_PLANT_ID, -1L))
-        }
+        viewModel.loadPlant(intent.getLongExtra(EXTRA_PLANT_ID, -1L))
     }
 
     private fun showPlant(item: PlantItem) {
@@ -72,6 +77,7 @@ class PlantDetailActivity : AppCompatActivity() {
         tvInitial.text = plant.name.take(1)
         tvName.text = plant.name
         tvSpecies.text = plant.species
+        tvCategory.text = item.category?.name ?: getString(R.string.no_category)
         WateringStatusText.show(tvStatus, item.status)
         tvInterval.text = resources.getQuantityString(
             R.plurals.every_n_days, plant.wateringIntervalDays, plant.wateringIntervalDays
