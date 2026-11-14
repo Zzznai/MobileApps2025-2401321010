@@ -11,12 +11,33 @@
     <string name="label_next_watering">Следващо поливане</string>
     <string name="label_status">Статус</string>
     <string name="plant_not_found">Растението не е намерено</string>
-    <string name="no_category">Без категория</string>
+    <string name="no_category">Без семейство</string>
     <string name="no_plants">Все още нямате растения</string>
 
+    <string name="title_add_plant">Ново растение</string>
+    <string name="add_plant">Добави растение</string>
+    <string name="hint_plant_name">Име на растението</string>
+    <string name="helper_plant_name">Например: Монстерата в хола</string>
+    <string name="hint_species">Вид (търсене)</string>
+    <string name="hint_custom_days">Собствен интервал (дни)</string>
+    <string name="helper_custom_days">Оставете празно, за да се ползват сезонните стойности</string>
+    <string name="hint_last_watered">Последно поливане</string>
+    <string name="pick_date">Избери дата</string>
+    <string name="btn_save">Запази</string>
+    <string name="plant_saved">Растението е добавено</string>
+    <string name="species_hint">%1$s · %2$s: %3$s</string>
+    <string name="error_plant_name">Въведете име от 2 до 40 знака</string>
+    <string name="error_species_required">Изберете вид от списъка</string>
+    <string name="error_watering_days">Въведете число от 1 до 90</string>
+
     <string name="label_light">Светлина</string>
-    <string name="label_seasons">Поливане по сезони</string>
+    <string name="label_season_now">Поливане този сезон</string>
     <string name="season_line">%1$s: %2$s</string>
+    <string name="family_line">%1$s (%2$s)</string>
+    <string name="label_difficulty">Трудност</string>
+    <string name="label_toxic">Отровно за домашни любимци</string>
+    <string name="toxic_yes">Да</string>
+    <string name="toxic_no">Не</string>
     <string name="care_disclaimer">Препоръчителни стойности. Нуждите зависят от саксията, почвата и температурата в стаята.</string>
 
     <string name="season_spring">Пролет</string>
@@ -24,11 +45,21 @@
     <string name="season_autumn">Есен</string>
     <string name="season_winter">Зима</string>
 
-    <string name="light_full_shade">Пълна сянка</string>
-    <string name="light_partial_shade">Полусянка</string>
-    <string name="light_bright_indirect">Ярка разсеяна светлина</string>
-    <string name="light_partial_sun">Частично слънце</string>
+    <string name="light_dark">Тъмно</string>
+    <string name="light_shade">Сянка</string>
+    <string name="light_part_shade">Полусянка</string>
+    <string name="light_bright_indirect">Ярка непряка светлина</string>
     <string name="light_full_sun">Пряко слънце</string>
+
+    <string name="lux_dark">под 500 lux</string>
+    <string name="lux_shade">500 – 1 500 lux</string>
+    <string name="lux_part_shade">1 500 – 5 000 lux</string>
+    <string name="lux_bright_indirect">5 000 – 15 000 lux</string>
+    <string name="lux_full_sun">над 15 000 lux</string>
+
+    <string name="difficulty_easy">Лесно</string>
+    <string name="difficulty_medium">Средно</string>
+    <string name="difficulty_hard">Трудно</string>
 
     <string name="watering_today">Полей днес!</string>
     <plurals name="watering_in_days">

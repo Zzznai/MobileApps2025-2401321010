@@ -1,6 +1,5 @@
 package com.naim.plantcare.ui.detail
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -11,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.color.MaterialColors
 import com.naim.plantcare.R
 import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.repository.PlantRepository
@@ -42,7 +42,10 @@ class PlantDetailActivity : AppCompatActivity() {
     private lateinit var tvNextWatering: TextView
     private lateinit var cardCare: View
     private lateinit var tvLight: TextView
-    private lateinit var seasonViews: Map<Season, TextView>
+    private lateinit var tvLux: TextView
+    private lateinit var tvSeason: TextView
+    private lateinit var tvDifficulty: TextView
+    private lateinit var tvToxic: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +68,10 @@ class PlantDetailActivity : AppCompatActivity() {
         tvNextWatering = findViewById(R.id.tvNextWatering)
         cardCare = findViewById(R.id.cardCare)
         tvLight = findViewById(R.id.tvLight)
-        seasonViews = mapOf(
-            Season.SPRING to findViewById(R.id.tvSpring),
-            Season.SUMMER to findViewById(R.id.tvSummer),
-            Season.AUTUMN to findViewById(R.id.tvAutumn),
-            Season.WINTER to findViewById(R.id.tvWinter)
-        )
+        tvLux = findViewById(R.id.tvLux)
+        tvSeason = findViewById(R.id.tvSeason)
+        tvDifficulty = findViewById(R.id.tvDifficulty)
+        tvToxic = findViewById(R.id.tvToxic)
 
         toolbar.setNavigationOnClickListener { finish() }
 
@@ -91,7 +92,8 @@ class PlantDetailActivity : AppCompatActivity() {
         tvInitial.text = plant.name.take(1)
         tvName.text = plant.name
         tvSpecies.text = plant.species
-        tvCategory.text = item.category?.name ?: getString(R.string.no_category)
+        tvCategory.text = item.category?.let { getString(R.string.family_line, it.name, it.latinName) }
+            ?: getString(R.string.no_category)
         WateringStatusText.show(tvStatus, item.status)
         tvInterval.text = everyNDays(item.wateringDays)
         tvLastWatered.text = plant.lastWatered.format(DATE_FORMAT)
@@ -107,15 +109,21 @@ class PlantDetailActivity : AppCompatActivity() {
         }
         cardCare.visibility = View.VISIBLE
         tvLight.text = getString(species.light.label)
-        val current = Season.of(item.plant.lastWatered)
-        seasonViews.forEach { (season, view) ->
-            view.text = getString(
-                R.string.season_line,
-                getString(season.label),
-                everyNDays(species.wateringDays(season))
-            )
-            view.setTypeface(null, if (season == current) Typeface.BOLD else Typeface.NORMAL)
+        tvLux.text = getString(species.light.luxRange)
+        val season = Season.of(item.plant.lastWatered)
+        tvSeason.text = getString(
+            R.string.season_line,
+            getString(season.label),
+            everyNDays(species.wateringDays(season))
+        )
+        tvDifficulty.text = getString(species.difficulty.label)
+        tvToxic.text = getString(if (species.toxicToPets) R.string.toxic_yes else R.string.toxic_no)
+        val toxicColor = if (species.toxicToPets) {
+            androidx.appcompat.R.attr.colorError
+        } else {
+            com.google.android.material.R.attr.colorOnSurface
         }
+        tvToxic.setTextColor(MaterialColors.getColor(tvToxic, toxicColor))
     }
 
     private fun everyNDays(days: Int): String =

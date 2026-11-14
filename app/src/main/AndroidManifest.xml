@@ -28,6 +28,12 @@
             android:exported="false"
             android:label="@string/title_plant_details"
             android:parentActivityName=".ui.list.MainActivity" />
+        <activity
+            android:name=".ui.add.AddPlantActivity"
+            android:exported="false"
+            android:label="@string/title_add_plant"
+            android:parentActivityName=".ui.list.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

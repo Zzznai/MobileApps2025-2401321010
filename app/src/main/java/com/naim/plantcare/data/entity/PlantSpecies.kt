@@ -27,7 +27,9 @@ data class PlantSpecies(
     val waterSpringDays: Int,
     val waterSummerDays: Int,
     val waterAutumnDays: Int,
-    val waterWinterDays: Int
+    val waterWinterDays: Int,
+    val difficulty: Difficulty,
+    val toxicToPets: Boolean
 ) {
     fun wateringDays(season: Season): Int = when (season) {
         Season.SPRING -> waterSpringDays

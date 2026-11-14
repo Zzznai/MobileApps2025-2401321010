@@ -52,7 +52,7 @@ class PlantViewModelsTest {
         val orchid = items.first { it.plant.name == "Орхидея" }
         assertEquals(8, orchid.wateringDays)
         assertEquals(WateringStatus.Overdue(1), orchid.status)
-        assertEquals("Цъфтящи", orchid.category?.name)
+        assertEquals("Орхидееви", orchid.category?.name)
     }
 
     @Test
@@ -63,7 +63,7 @@ class PlantViewModelsTest {
                 name = "Алое",
                 species = "Aloe vera",
                 lastWatered = today,
-                categoryId = 1,
+                categoryId = PlantCareDatabase.familyId("Asphodelaceae"),
                 customWateringDays = 14
             )
         )
@@ -82,7 +82,7 @@ class PlantViewModelsTest {
         assertEquals("Монстера", item.plant.name)
         assertEquals(WateringStatus.InDays(3), item.status)
         assertEquals(LightLevel.BRIGHT_INDIRECT, item.species?.light)
-        assertEquals("Тропически", item.category?.name)
+        assertEquals("Ароидни", item.category?.name)
     }
 
     @Test

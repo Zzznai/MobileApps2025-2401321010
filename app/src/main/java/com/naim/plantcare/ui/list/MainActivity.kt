@@ -10,10 +10,12 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.naim.plantcare.R
 import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
+import com.naim.plantcare.ui.add.AddPlantActivity
 import com.naim.plantcare.ui.detail.PlantDetailActivity
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         tvEmpty = findViewById(R.id.tvEmpty)
         adapter = PlantAdapter { plant -> openDetails(plant) }
         rvPlants.adapter = adapter
+
+        findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
+            startActivity(Intent(this, AddPlantActivity::class.java))
+        }
 
         viewModel.plants.observe(this) { plants ->
             adapter.submitList(plants)

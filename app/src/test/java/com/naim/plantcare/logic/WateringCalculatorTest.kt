@@ -1,5 +1,6 @@
 package com.naim.plantcare.logic
 
+import com.naim.plantcare.data.entity.Difficulty
 import com.naim.plantcare.data.entity.LightLevel
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.entity.PlantCategory
@@ -14,17 +15,19 @@ class WateringCalculatorTest {
     private val today = LocalDate.of(2026, 11, 10)
     private val calculator = WateringCalculator { today }
 
-    private val tropical = PlantCategory(id = 2, name = "Тропически", wateringIntervalDays = 7)
+    private val tropical = PlantCategory(id = 1, name = "Ароидни", latinName = "Araceae", wateringIntervalDays = 7)
     private val monstera = PlantSpecies(
         id = 1,
         name = "Монстера",
         latinName = "Monstera deliciosa",
-        categoryId = 2,
+        categoryId = 1,
         light = LightLevel.BRIGHT_INDIRECT,
         waterSpringDays = 7,
         waterSummerDays = 5,
         waterAutumnDays = 8,
-        waterWinterDays = 12
+        waterWinterDays = 12,
+        difficulty = Difficulty.EASY,
+        toxicToPets = true
     )
 
     private fun details(

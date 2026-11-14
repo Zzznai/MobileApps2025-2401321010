@@ -80,7 +80,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSpecies"
-                tools:text="Тропически" />
+                tools:text="Черничеви (Moraceae)" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardWatering"
@@ -212,43 +212,60 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
-                        tools:text="Ярка разсеяна светлина" />
+                        tools:text="Ярка непряка светлина" />
+
+                    <TextView
+                        android:id="@+id/tvLux"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="5 000 – 15 000 lux" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/label_seasons"
+                        android:text="@string/label_season_now"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
                     <TextView
-                        android:id="@+id/tvSpring"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceBodyLarge"
-                        tools:text="Пролет: на всеки 7 дни" />
-
-                    <TextView
-                        android:id="@+id/tvSummer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceBodyLarge"
-                        tools:text="Лято: на всеки 5 дни" />
-
-                    <TextView
-                        android:id="@+id/tvAutumn"
+                        android:id="@+id/tvSeason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         tools:text="Есен: на всеки 8 дни" />
 
                     <TextView
-                        android:id="@+id/tvWinter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/label_difficulty"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/tvDifficulty"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
-                        tools:text="Зима: на всеки 12 дни" />
+                        tools:text="Лесно" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/label_toxic"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/tvToxic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="Да" />
 
                     <TextView
                         android:layout_width="match_parent"
