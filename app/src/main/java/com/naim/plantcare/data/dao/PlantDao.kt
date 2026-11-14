@@ -8,7 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.naim.plantcare.data.entity.Plant
-import com.naim.plantcare.data.entity.PlantWithCategory
+import com.naim.plantcare.data.entity.PlantWithDetails
 
 @Dao
 interface PlantDao {
@@ -23,11 +23,11 @@ interface PlantDao {
 
     @Transaction
     @Query("SELECT * FROM plants ORDER BY name COLLATE NOCASE")
-    fun getAll(): LiveData<List<PlantWithCategory>>
+    fun getAll(): LiveData<List<PlantWithDetails>>
 
     @Transaction
     @Query("SELECT * FROM plants WHERE id = :id")
-    fun getById(id: Long): LiveData<PlantWithCategory?>
+    fun getById(id: Long): LiveData<PlantWithDetails?>
 
     @Query("SELECT COUNT(*) FROM plants")
     fun count(): LiveData<Int>

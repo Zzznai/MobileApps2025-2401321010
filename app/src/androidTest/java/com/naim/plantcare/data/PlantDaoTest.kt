@@ -8,7 +8,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.naim.plantcare.data.dao.CategoryDao
 import com.naim.plantcare.data.dao.PlantDao
+import com.naim.plantcare.data.entity.LightLevel
 import com.naim.plantcare.data.entity.Plant
+import com.naim.plantcare.data.entity.PlantSpecies
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -39,6 +41,7 @@ class PlantDaoTest {
         plantDao = db.plantDao()
         categoryDao = db.categoryDao()
         categoryDao.insertAll(PlantCareDatabase.PRESET_CATEGORIES)
+        db.speciesDao().insertAll(listOf(MONSTERA))
     }
 
     @After
@@ -65,10 +68,19 @@ class PlantDaoTest {
     private fun plant(name: String, categoryId: Long?) = Plant(
         name = name,
         species = "Species",
-        wateringIntervalDays = 7,
         lastWatered = LocalDate.of(2026, 11, 10),
         categoryId = categoryId
     )
+
+    @Test
+    fun insertAndReadWithSpecies() = runBlocking {
+        val id = plantDao.insert(plant("Монстера", 2).copy(speciesId = 1))
+
+        val loaded = plantDao.getById(id).awaitValue()!!
+        assertEquals("Monstera deliciosa", loaded.species?.latinName)
+        assertEquals(LightLevel.BRIGHT_INDIRECT, loaded.species?.light)
+        assertEquals(12, loaded.species?.waterWinterDays)
+    }
 
     @Test
     fun insertAndReadWithCategory() = runBlocking {
@@ -95,9 +107,9 @@ class PlantDaoTest {
         val id = plantDao.insert(plant("Фикус", 2))
         val stored = plantDao.getById(id).awaitValue()!!.plant
 
-        plantDao.update(stored.copy(wateringIntervalDays = 10))
+        plantDao.update(stored.copy(customWateringDays = 10))
 
-        assertEquals(10, plantDao.getById(id).awaitValue()!!.plant.wateringIntervalDays)
+        assertEquals(10, plantDao.getById(id).awaitValue()!!.plant.customWateringDays)
     }
 
     @Test
@@ -109,5 +121,18 @@ class PlantDaoTest {
 
         assertNull(plantDao.getById(id).awaitValue())
         assertEquals(0, plantDao.count().awaitValue())
+    }
+
+    companion object {
+        private val MONSTERA = PlantSpecies(
+            name = "Монстера",
+            latinName = "Monstera deliciosa",
+            categoryId = 2,
+            light = LightLevel.BRIGHT_INDIRECT,
+            waterSpringDays = 7,
+            waterSummerDays = 5,
+            waterAutumnDays = 8,
+            waterWinterDays = 12
+        )
     }
 }

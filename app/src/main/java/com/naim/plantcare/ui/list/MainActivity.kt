@@ -19,7 +19,7 @@ import com.naim.plantcare.ui.detail.PlantDetailActivity
 class MainActivity : AppCompatActivity() {
     private val viewModel: PlantListViewModel by viewModels {
         val db = PlantCareDatabase.getInstance(applicationContext)
-        PlantListViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao()))
+        PlantListViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()))
     }
 
     private lateinit var rvPlants: RecyclerView

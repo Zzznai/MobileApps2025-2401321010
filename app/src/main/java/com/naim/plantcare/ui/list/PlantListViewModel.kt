@@ -13,7 +13,7 @@ class PlantListViewModel(
     private val calculator: WateringCalculator = WateringCalculator()
 ) : ViewModel() {
     val plants: LiveData<List<PlantItem>> = repository.plants.map { list ->
-        list.map { PlantItem(it.plant, it.category, calculator.statusOf(it.plant)) }
+        list.map { PlantItem.from(it, calculator) }
     }
 
     class Factory(private val repository: PlantRepository) : ViewModelProvider.Factory {

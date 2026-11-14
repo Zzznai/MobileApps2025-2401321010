@@ -18,7 +18,7 @@ class PlantDetailViewModel(
 
     val plant: LiveData<PlantItem?> = plantId.switchMap { id ->
         repository.plant(id).map { found ->
-            found?.let { PlantItem(it.plant, it.category, calculator.statusOf(it.plant)) }
+            found?.let { PlantItem.from(it, calculator) }
         }
     }
 
