@@ -53,6 +53,12 @@ class AddPlantViewModel(
 
     companion object {
         fun speciesLabel(species: PlantSpecies): String = "${species.name} (${species.latinName})"
+
+        fun filterLabels(labels: List<String>, query: CharSequence?): List<String> {
+            val text = query?.toString()?.trim().orEmpty()
+            if (text.isEmpty()) return labels
+            return labels.filter { it.contains(text, ignoreCase = true) }
+        }
     }
 
     class Factory(private val repository: PlantRepository) : ViewModelProvider.Factory {

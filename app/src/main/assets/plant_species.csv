@@ -1,105 +1,105 @@
-name;latinName;categoryId;light;spring;summer;autumn;winter
-Алое вера;Aloe vera;1;FULL_SUN;14;10;14;30
-Ехеверия;Echeveria elegans;1;FULL_SUN;12;10;14;30
-Дебелец (Парично дърво);Crassula ovata;1;PARTIAL_SUN;14;10;14;28
-Хавортия;Haworthia fasciata;1;BRIGHT_INDIRECT;14;12;14;28
-Ехинопсис;Echinopsis;1;FULL_SUN;14;10;14;45
-Мамилария;Mammillaria;1;FULL_SUN;14;10;14;45
-Опунция;Opuntia microdasys;1;FULL_SUN;14;10;14;45
-Коледен кактус;Schlumbergera truncata;1;BRIGHT_INDIRECT;7;7;10;7
-Седум (Магарешка опашка);Sedum morganianum;1;FULL_SUN;10;7;10;21
-Каланхое;Kalanchoe blossfeldiana;1;PARTIAL_SUN;10;7;10;14
-Гастерия;Gasteria;1;BRIGHT_INDIRECT;14;12;14;30
-Литопс (Живи камъни);Lithops;1;FULL_SUN;21;14;21;60
-Агаве;Agave americana;1;FULL_SUN;14;10;14;30
-Сенецио (Перлички);Senecio rowleyanus;1;PARTIAL_SUN;10;7;10;21
-Златен кактус;Echinocactus grusonii;1;FULL_SUN;14;10;14;45
-Еуфорбия;Euphorbia trigona;1;FULL_SUN;14;10;14;30
-Еониум;Aeonium arboreum;1;FULL_SUN;10;14;10;10
-Портулакария;Portulacaria afra;1;FULL_SUN;10;7;10;21
-Пахифитум;Pachyphytum oviferum;1;FULL_SUN;14;10;14;30
-Монстера;Monstera deliciosa;2;BRIGHT_INDIRECT;7;5;8;12
-Фикус Еластика;Ficus elastica;2;BRIGHT_INDIRECT;7;6;8;12
-Фикус Лирата;Ficus lyrata;2;BRIGHT_INDIRECT;7;6;8;12
-Фикус Бенджамина;Ficus benjamina;2;BRIGHT_INDIRECT;6;5;7;10
-Потос;Epipremnum aureum;2;PARTIAL_SHADE;7;6;8;12
-Филодендрон;Philodendron hederaceum;2;BRIGHT_INDIRECT;7;6;8;12
-Филодендрон Ксанаду;Thaumatophyllum xanadu;2;BRIGHT_INDIRECT;7;6;8;12
-Алоказия;Alocasia amazonica;2;BRIGHT_INDIRECT;5;4;6;10
-Колоказия;Colocasia esculenta;2;PARTIAL_SUN;3;2;4;7
-Калатея;Goeppertia orbifolia;2;PARTIAL_SHADE;5;4;6;8
-Маранта;Maranta leuconeura;2;PARTIAL_SHADE;5;4;6;8
-Строманте;Stromanthe sanguinea;2;BRIGHT_INDIRECT;5;4;6;8
-Дифенбахия;Dieffenbachia seguine;2;BRIGHT_INDIRECT;7;6;8;12
-Драцена Маргината;Dracaena marginata;2;BRIGHT_INDIRECT;10;8;10;14
-Драцена Фрагранс;Dracaena fragrans;2;BRIGHT_INDIRECT;10;8;10;14
-Юка;Yucca elephantipes;2;FULL_SUN;10;7;10;21
-Стрелиция;Strelitzia reginae;2;FULL_SUN;7;5;8;14
-Шефлера;Schefflera arboricola;2;BRIGHT_INDIRECT;7;6;8;12
-Сингониум;Syngonium podophyllum;2;BRIGHT_INDIRECT;6;5;7;10
-Пилея;Pilea peperomioides;2;BRIGHT_INDIRECT;7;6;8;12
-Пеперомия;Peperomia obtusifolia;2;BRIGHT_INDIRECT;10;8;10;14
-Кротон;Codiaeum variegatum;2;PARTIAL_SUN;5;4;6;8
-Ареканова палма;Dypsis lutescens;2;BRIGHT_INDIRECT;6;5;7;10
-Кентия;Howea forsteriana;2;PARTIAL_SHADE;8;7;9;14
-Хамедорея;Chamaedorea elegans;2;PARTIAL_SHADE;7;6;8;12
-Хойя (Восъчно цвете);Hoya carnosa;2;BRIGHT_INDIRECT;10;7;10;18
-Традесканция;Tradescantia zebrina;2;BRIGHT_INDIRECT;6;5;7;10
-Хлорофитум;Chlorophytum comosum;2;BRIGHT_INDIRECT;7;5;8;12
-Бегония Рекс;Begonia rex;2;PARTIAL_SHADE;6;5;7;10
-Фитония;Fittonia albivenis;2;PARTIAL_SHADE;4;3;5;7
-Ктенанте;Ctenanthe burle-marxii;2;PARTIAL_SHADE;5;4;6;8
-Стаен банан;Musa acuminata;2;FULL_SUN;4;3;5;8
-Орхидея Фаленопсис;Phalaenopsis;3;BRIGHT_INDIRECT;7;6;8;10
-Спатифилум;Spathiphyllum wallisii;3;PARTIAL_SHADE;6;4;6;9
-Антуриум;Anthurium andraeanum;3;BRIGHT_INDIRECT;7;5;8;10
-Африканска теменужка;Saintpaulia ionantha;3;BRIGHT_INDIRECT;6;5;7;9
-Хибискус;Hibiscus rosa-sinensis;3;FULL_SUN;4;2;4;8
-Мушкато;Pelargonium zonale;3;FULL_SUN;5;3;5;12
-Гузмания;Guzmania lingulata;3;BRIGHT_INDIRECT;7;6;8;10
-Циклама;Cyclamen persicum;3;BRIGHT_INDIRECT;7;14;7;5
-Азалия;Rhododendron simsii;3;BRIGHT_INDIRECT;4;3;4;5
-Гардения;Gardenia jasminoides;3;BRIGHT_INDIRECT;5;4;6;8
-Жасмин;Jasminum polyanthum;3;PARTIAL_SUN;5;3;5;8
-Бугенвилия;Bougainvillea glabra;3;FULL_SUN;7;5;7;14
-Коледна звезда;Euphorbia pulcherrima;3;BRIGHT_INDIRECT;8;7;8;7
-Амарилис;Hippeastrum;3;FULL_SUN;7;7;10;21
-Глоксиния;Sinningia speciosa;3;BRIGHT_INDIRECT;5;4;6;14
-Фуксия;Fuchsia magellanica;3;PARTIAL_SHADE;3;2;4;10
-Цъфтяща бегония;Begonia elatior;3;BRIGHT_INDIRECT;5;4;6;8
-Клеродендрум;Clerodendrum thomsoniae;3;BRIGHT_INDIRECT;5;4;6;12
-Стефанотис;Stephanotis floribunda;3;BRIGHT_INDIRECT;5;4;6;10
-Кливия;Clivia miniata;3;BRIGHT_INDIRECT;10;7;10;21
-Петуния;Petunia atkinsiana;3;FULL_SUN;2;1;3;7
-Миниатюрна роза;Rosa chinensis;3;FULL_SUN;3;2;3;7
-Хортензия;Hydrangea macrophylla;3;PARTIAL_SUN;3;2;4;10
-Кала;Zantedeschia aethiopica;3;PARTIAL_SUN;4;3;5;14
-Босилек;Ocimum basilicum;4;FULL_SUN;2;1;2;4
-Мента;Mentha spicata;4;PARTIAL_SUN;2;1;3;5
-Магданоз;Petroselinum crispum;4;PARTIAL_SUN;3;2;3;5
-Розмарин;Salvia rosmarinus;4;FULL_SUN;7;5;7;14
-Мащерка;Thymus vulgaris;4;FULL_SUN;7;5;7;14
-Риган;Origanum vulgare;4;FULL_SUN;5;4;6;10
-Лавандула;Lavandula angustifolia;4;FULL_SUN;7;5;8;14
-Градински чай;Salvia officinalis;4;FULL_SUN;6;4;7;12
-Копър;Anethum graveolens;4;FULL_SUN;3;2;3;5
-Кориандър;Coriandrum sativum;4;PARTIAL_SUN;3;2;3;5
-Лимонова трева;Cymbopogon citratus;4;FULL_SUN;3;2;4;8
-Чубрица;Satureja hortensis;4;FULL_SUN;5;4;6;10
-Лук резанка;Allium schoenoprasum;4;FULL_SUN;3;2;3;6
-Маточина;Melissa officinalis;4;PARTIAL_SUN;3;2;4;7
-Дафинов лист;Laurus nobilis;4;FULL_SUN;7;5;8;14
-Нефролепис;Nephrolepis exaltata;5;PARTIAL_SHADE;3;2;3;5
-Венерин косъм;Adiantum raddianum;5;PARTIAL_SHADE;2;2;3;4
-Асплениум;Asplenium nidus;5;PARTIAL_SHADE;5;4;5;8
-Еленов рог;Platycerium bifurcatum;5;BRIGHT_INDIRECT;7;5;7;10
-Птерис;Pteris cretica;5;PARTIAL_SHADE;4;3;4;7
-Заешка лапа;Davallia fejeensis;5;PARTIAL_SHADE;4;3;4;7
-Синя папрат;Phlebodium aureum;5;PARTIAL_SHADE;5;4;5;8
-Сансевиерия;Dracaena trifasciata;6;PARTIAL_SHADE;14;10;14;30
-Замиокулкас;Zamioculcas zamiifolia;6;FULL_SHADE;14;10;14;30
-Аспидистра;Aspidistra elatior;6;FULL_SHADE;10;7;10;21
-Аглаонема;Aglaonema commutatum;6;PARTIAL_SHADE;8;6;9;14
-Бръшлян;Hedera helix;6;PARTIAL_SHADE;6;5;7;10
-Фатсия;Fatsia japonica;6;PARTIAL_SHADE;6;5;7;12
-Сциндапсус;Scindapsus pictus;6;PARTIAL_SHADE;8;7;9;14
+name;latinName;family;light;spring;summer;autumn;winter;difficulty;toxicToPets
+Алое вера;Aloe vera;Asphodelaceae;FULL_SUN;14;10;14;30;EASY;true
+Ехеверия;Echeveria elegans;Crassulaceae;FULL_SUN;12;10;14;30;MEDIUM;false
+Дебелец (Парично дърво);Crassula ovata;Crassulaceae;FULL_SUN;14;10;14;28;EASY;true
+Хавортия;Haworthia fasciata;Asphodelaceae;BRIGHT_INDIRECT;14;12;14;28;EASY;false
+Ехинопсис;Echinopsis;Cactaceae;FULL_SUN;14;10;14;45;EASY;false
+Мамилария;Mammillaria;Cactaceae;FULL_SUN;14;10;14;45;EASY;false
+Опунция;Opuntia microdasys;Cactaceae;FULL_SUN;14;10;14;45;EASY;false
+Коледен кактус;Schlumbergera truncata;Cactaceae;BRIGHT_INDIRECT;7;7;10;7;MEDIUM;false
+Седум (Магарешка опашка);Sedum morganianum;Crassulaceae;FULL_SUN;10;7;10;21;MEDIUM;false
+Каланхое;Kalanchoe blossfeldiana;Crassulaceae;FULL_SUN;10;7;10;14;EASY;true
+Гастерия;Gasteria;Asphodelaceae;BRIGHT_INDIRECT;14;12;14;30;EASY;false
+Литопс (Живи камъни);Lithops;Aizoaceae;FULL_SUN;21;14;21;60;HARD;false
+Агаве;Agave americana;Asparagaceae;FULL_SUN;14;10;14;30;EASY;true
+Сенецио (Перлички);Senecio rowleyanus;Asteraceae;BRIGHT_INDIRECT;10;7;10;21;MEDIUM;true
+Златен кактус;Echinocactus grusonii;Cactaceae;FULL_SUN;14;10;14;45;EASY;false
+Еуфорбия;Euphorbia trigona;Euphorbiaceae;FULL_SUN;14;10;14;30;EASY;true
+Еониум;Aeonium arboreum;Crassulaceae;FULL_SUN;10;14;10;10;MEDIUM;false
+Портулакария;Portulacaria afra;Didiereaceae;FULL_SUN;10;7;10;21;EASY;false
+Пахифитум;Pachyphytum oviferum;Crassulaceae;FULL_SUN;14;10;14;30;MEDIUM;false
+Монстера;Monstera deliciosa;Araceae;BRIGHT_INDIRECT;7;5;8;12;EASY;true
+Фикус Еластика;Ficus elastica;Moraceae;BRIGHT_INDIRECT;7;6;8;12;EASY;true
+Фикус Лирата;Ficus lyrata;Moraceae;BRIGHT_INDIRECT;7;6;8;12;HARD;true
+Фикус Бенджамина;Ficus benjamina;Moraceae;BRIGHT_INDIRECT;6;5;7;10;MEDIUM;true
+Потос;Epipremnum aureum;Araceae;PART_SHADE;7;6;8;12;EASY;true
+Филодендрон;Philodendron hederaceum;Araceae;BRIGHT_INDIRECT;7;6;8;12;EASY;true
+Филодендрон Ксанаду;Thaumatophyllum xanadu;Araceae;BRIGHT_INDIRECT;7;6;8;12;MEDIUM;true
+Алоказия;Alocasia amazonica;Araceae;BRIGHT_INDIRECT;5;4;6;10;HARD;true
+Колоказия;Colocasia esculenta;Araceae;BRIGHT_INDIRECT;3;2;4;7;MEDIUM;true
+Калатея;Goeppertia orbifolia;Marantaceae;PART_SHADE;5;4;6;8;HARD;false
+Маранта;Maranta leuconeura;Marantaceae;PART_SHADE;5;4;6;8;MEDIUM;false
+Строманте;Stromanthe sanguinea;Marantaceae;BRIGHT_INDIRECT;5;4;6;8;HARD;false
+Дифенбахия;Dieffenbachia seguine;Araceae;BRIGHT_INDIRECT;7;6;8;12;MEDIUM;true
+Драцена Маргината;Dracaena marginata;Asparagaceae;BRIGHT_INDIRECT;10;8;10;14;EASY;true
+Драцена Фрагранс;Dracaena fragrans;Asparagaceae;BRIGHT_INDIRECT;10;8;10;14;EASY;true
+Юка;Yucca elephantipes;Asparagaceae;FULL_SUN;10;7;10;21;EASY;true
+Стрелиция;Strelitzia reginae;Strelitziaceae;FULL_SUN;7;5;8;14;MEDIUM;true
+Шефлера;Schefflera arboricola;Araliaceae;BRIGHT_INDIRECT;7;6;8;12;EASY;true
+Сингониум;Syngonium podophyllum;Araceae;BRIGHT_INDIRECT;6;5;7;10;EASY;true
+Пилея;Pilea peperomioides;Urticaceae;BRIGHT_INDIRECT;7;6;8;12;EASY;false
+Пеперомия;Peperomia obtusifolia;Piperaceae;BRIGHT_INDIRECT;10;8;10;14;EASY;false
+Кротон;Codiaeum variegatum;Euphorbiaceae;BRIGHT_INDIRECT;5;4;6;8;HARD;true
+Ареканова палма;Dypsis lutescens;Arecaceae;BRIGHT_INDIRECT;6;5;7;10;MEDIUM;false
+Кентия;Howea forsteriana;Arecaceae;PART_SHADE;8;7;9;14;EASY;false
+Хамедорея;Chamaedorea elegans;Arecaceae;PART_SHADE;7;6;8;12;EASY;false
+Хойя (Восъчно цвете);Hoya carnosa;Apocynaceae;BRIGHT_INDIRECT;10;7;10;18;EASY;false
+Традесканция;Tradescantia zebrina;Commelinaceae;BRIGHT_INDIRECT;6;5;7;10;EASY;true
+Хлорофитум;Chlorophytum comosum;Asparagaceae;BRIGHT_INDIRECT;7;5;8;12;EASY;false
+Бегония Рекс;Begonia rex;Begoniaceae;PART_SHADE;6;5;7;10;HARD;true
+Фитония;Fittonia albivenis;Acanthaceae;PART_SHADE;4;3;5;7;HARD;false
+Ктенанте;Ctenanthe burle-marxii;Marantaceae;PART_SHADE;5;4;6;8;MEDIUM;false
+Стаен банан;Musa acuminata;Musaceae;FULL_SUN;4;3;5;8;MEDIUM;false
+Орхидея Фаленопсис;Phalaenopsis;Orchidaceae;BRIGHT_INDIRECT;7;6;8;10;MEDIUM;false
+Спатифилум;Spathiphyllum wallisii;Araceae;PART_SHADE;6;4;6;9;EASY;true
+Антуриум;Anthurium andraeanum;Araceae;BRIGHT_INDIRECT;7;5;8;10;MEDIUM;true
+Африканска теменужка;Saintpaulia ionantha;Gesneriaceae;BRIGHT_INDIRECT;6;5;7;9;MEDIUM;false
+Хибискус;Hibiscus rosa-sinensis;Malvaceae;FULL_SUN;4;2;4;8;MEDIUM;false
+Мушкато;Pelargonium zonale;Geraniaceae;FULL_SUN;5;3;5;12;EASY;true
+Гузмания;Guzmania lingulata;Bromeliaceae;BRIGHT_INDIRECT;7;6;8;10;MEDIUM;false
+Циклама;Cyclamen persicum;Primulaceae;BRIGHT_INDIRECT;7;14;7;5;MEDIUM;true
+Азалия;Rhododendron simsii;Ericaceae;BRIGHT_INDIRECT;4;3;4;5;HARD;true
+Гардения;Gardenia jasminoides;Rubiaceae;BRIGHT_INDIRECT;5;4;6;8;HARD;true
+Жасмин;Jasminum polyanthum;Oleaceae;FULL_SUN;5;3;5;8;MEDIUM;false
+Бугенвилия;Bougainvillea glabra;Nyctaginaceae;FULL_SUN;7;5;7;14;MEDIUM;false
+Коледна звезда;Euphorbia pulcherrima;Euphorbiaceae;BRIGHT_INDIRECT;8;7;8;7;MEDIUM;true
+Амарилис;Hippeastrum;Amaryllidaceae;FULL_SUN;7;7;10;21;MEDIUM;true
+Глоксиния;Sinningia speciosa;Gesneriaceae;BRIGHT_INDIRECT;5;4;6;14;HARD;false
+Фуксия;Fuchsia magellanica;Onagraceae;PART_SHADE;3;2;4;10;MEDIUM;false
+Цъфтяща бегония;Begonia elatior;Begoniaceae;BRIGHT_INDIRECT;5;4;6;8;MEDIUM;true
+Клеродендрум;Clerodendrum thomsoniae;Lamiaceae;BRIGHT_INDIRECT;5;4;6;12;MEDIUM;false
+Стефанотис;Stephanotis floribunda;Apocynaceae;BRIGHT_INDIRECT;5;4;6;10;HARD;false
+Кливия;Clivia miniata;Amaryllidaceae;BRIGHT_INDIRECT;10;7;10;21;EASY;true
+Петуния;Petunia atkinsiana;Solanaceae;FULL_SUN;2;1;3;7;EASY;false
+Миниатюрна роза;Rosa chinensis;Rosaceae;FULL_SUN;3;2;3;7;HARD;false
+Хортензия;Hydrangea macrophylla;Hydrangeaceae;BRIGHT_INDIRECT;3;2;4;10;MEDIUM;true
+Кала;Zantedeschia aethiopica;Araceae;BRIGHT_INDIRECT;4;3;5;14;MEDIUM;true
+Босилек;Ocimum basilicum;Lamiaceae;FULL_SUN;2;1;2;4;MEDIUM;false
+Мента;Mentha spicata;Lamiaceae;FULL_SUN;2;1;3;5;EASY;true
+Магданоз;Petroselinum crispum;Apiaceae;FULL_SUN;3;2;3;5;MEDIUM;true
+Розмарин;Salvia rosmarinus;Lamiaceae;FULL_SUN;7;5;7;14;MEDIUM;false
+Мащерка;Thymus vulgaris;Lamiaceae;FULL_SUN;7;5;7;14;EASY;false
+Риган;Origanum vulgare;Lamiaceae;FULL_SUN;5;4;6;10;EASY;true
+Лавандула;Lavandula angustifolia;Lamiaceae;FULL_SUN;7;5;8;14;MEDIUM;true
+Градински чай;Salvia officinalis;Lamiaceae;FULL_SUN;6;4;7;12;EASY;false
+Копър;Anethum graveolens;Apiaceae;FULL_SUN;3;2;3;5;MEDIUM;false
+Кориандър;Coriandrum sativum;Apiaceae;FULL_SUN;3;2;3;5;HARD;false
+Лимонова трева;Cymbopogon citratus;Poaceae;FULL_SUN;3;2;4;8;EASY;true
+Чубрица;Satureja hortensis;Lamiaceae;FULL_SUN;5;4;6;10;EASY;false
+Лук резанка;Allium schoenoprasum;Amaryllidaceae;FULL_SUN;3;2;3;6;EASY;true
+Маточина;Melissa officinalis;Lamiaceae;FULL_SUN;3;2;4;7;EASY;true
+Дафинов лист;Laurus nobilis;Lauraceae;FULL_SUN;7;5;8;14;MEDIUM;true
+Нефролепис;Nephrolepis exaltata;Nephrolepidaceae;PART_SHADE;3;2;3;5;MEDIUM;false
+Венерин косъм;Adiantum raddianum;Pteridaceae;PART_SHADE;2;2;3;4;HARD;false
+Асплениум;Asplenium nidus;Aspleniaceae;PART_SHADE;5;4;5;8;MEDIUM;false
+Еленов рог;Platycerium bifurcatum;Polypodiaceae;BRIGHT_INDIRECT;7;5;7;10;HARD;false
+Птерис;Pteris cretica;Pteridaceae;PART_SHADE;4;3;4;7;MEDIUM;false
+Заешка лапа;Davallia fejeensis;Davalliaceae;PART_SHADE;4;3;4;7;MEDIUM;false
+Синя папрат;Phlebodium aureum;Polypodiaceae;PART_SHADE;5;4;5;8;MEDIUM;false
+Сансевиерия;Dracaena trifasciata;Asparagaceae;PART_SHADE;14;10;14;30;EASY;true
+Замиокулкас;Zamioculcas zamiifolia;Araceae;SHADE;14;10;14;30;EASY;true
+Аспидистра;Aspidistra elatior;Asparagaceae;SHADE;10;7;10;21;EASY;false
+Аглаонема;Aglaonema commutatum;Araceae;PART_SHADE;8;6;9;14;EASY;true
+Бръшлян;Hedera helix;Araliaceae;PART_SHADE;6;5;7;10;EASY;true
+Фатсия;Fatsia japonica;Araliaceae;PART_SHADE;6;5;7;12;MEDIUM;true
+Сциндапсус;Scindapsus pictus;Araceae;PART_SHADE;8;7;9;14;EASY;true

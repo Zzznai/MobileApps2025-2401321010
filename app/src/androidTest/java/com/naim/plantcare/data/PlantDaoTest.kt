@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.naim.plantcare.data.dao.CategoryDao
 import com.naim.plantcare.data.dao.PlantDao
+import com.naim.plantcare.data.entity.Difficulty
 import com.naim.plantcare.data.entity.LightLevel
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.entity.PlantSpecies
@@ -74,7 +75,7 @@ class PlantDaoTest {
 
     @Test
     fun insertAndReadWithSpecies() = runBlocking {
-        val id = plantDao.insert(plant("Монстера", 2).copy(speciesId = 1))
+        val id = plantDao.insert(plant("Монстера", 1).copy(speciesId = 1))
 
         val loaded = plantDao.getById(id).awaitValue()!!
         assertEquals("Monstera deliciosa", loaded.species?.latinName)
@@ -84,12 +85,12 @@ class PlantDaoTest {
 
     @Test
     fun insertAndReadWithCategory() = runBlocking {
-        val id = plantDao.insert(plant("Фикус", 2))
+        val id = plantDao.insert(plant("Фикус", PlantCareDatabase.familyId("Moraceae")))
 
         val loaded = plantDao.getById(id).awaitValue()!!
         assertEquals("Фикус", loaded.plant.name)
         assertEquals(LocalDate.of(2026, 11, 10), loaded.plant.lastWatered)
-        assertEquals("Тропически", loaded.category?.name)
+        assertEquals("Черничеви", loaded.category?.name)
     }
 
     @Test
@@ -127,12 +128,14 @@ class PlantDaoTest {
         private val MONSTERA = PlantSpecies(
             name = "Монстера",
             latinName = "Monstera deliciosa",
-            categoryId = 2,
+            categoryId = 1,
             light = LightLevel.BRIGHT_INDIRECT,
             waterSpringDays = 7,
             waterSummerDays = 5,
             waterAutumnDays = 8,
-            waterWinterDays = 12
+            waterWinterDays = 12,
+            difficulty = Difficulty.EASY,
+            toxicToPets = true
         )
     }
 }

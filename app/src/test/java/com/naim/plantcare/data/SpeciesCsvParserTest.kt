@@ -1,8 +1,10 @@
 package com.naim.plantcare.data
 
+import com.naim.plantcare.data.entity.Difficulty
 import com.naim.plantcare.data.entity.LightLevel
 import com.naim.plantcare.data.entity.PlantSpecies
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
@@ -19,12 +21,24 @@ class SpeciesCsvParserTest {
 
     @Test
     fun parseLine_readsAllColumns() {
-        val species = SpeciesCsvParser.parseLine("Монстера;Monstera deliciosa;2;BRIGHT_INDIRECT;7;5;8;12")
+        val species = SpeciesCsvParser.parseLine("Монстера;Monstera deliciosa;Araceae;BRIGHT_INDIRECT;7;5;8;12;EASY;true")
         assertEquals("Монстера", species.name)
         assertEquals("Monstera deliciosa", species.latinName)
-        assertEquals(2L, species.categoryId)
+        assertEquals(PlantCareDatabase.familyId("Araceae"), species.categoryId)
         assertEquals(LightLevel.BRIGHT_INDIRECT, species.light)
         assertEquals(listOf(7, 5, 8, 12), listOf(species.waterSpringDays, species.waterSummerDays, species.waterAutumnDays, species.waterWinterDays))
+        assertEquals(Difficulty.EASY, species.difficulty)
+        assertTrue(species.toxicToPets)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun parseLine_rejectsUnknownFamily() {
+        SpeciesCsvParser.parseLine("Монстера;Monstera deliciosa;Plasticaceae;BRIGHT_INDIRECT;7;5;8;12;EASY;true")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun parseLine_rejectsInvalidToxicFlag() {
+        SpeciesCsvParser.parseLine("Монстера;Monstera deliciosa;Araceae;BRIGHT_INDIRECT;7;5;8;12;EASY;maybe")
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -34,7 +48,11 @@ class SpeciesCsvParserTest {
 
     @Test
     fun parse_skipsHeaderAndBlankLines() {
-        val lines = sequenceOf("name;latinName;categoryId;light;spring;summer;autumn;winter", "", "Мента;Mentha spicata;4;PARTIAL_SUN;2;1;3;5")
+        val lines = sequenceOf(
+            "name;latinName;family;light;spring;summer;autumn;winter;difficulty;toxicToPets",
+            "",
+            "Мента;Mentha spicata;Lamiaceae;FULL_SUN;2;1;3;5;EASY;true"
+        )
         assertEquals(1, SpeciesCsvParser.parse(lines).size)
     }
 
@@ -56,9 +74,26 @@ class SpeciesCsvParserTest {
     }
 
     @Test
-    fun catalog_everyCategoryHasPlants() {
+    fun catalog_everyFamilyHasPlants() {
         val used = catalog.mapNotNull { it.categoryId }.toSet()
-        assertEquals((1L..6L).toSet(), used)
+        assertEquals((1L..PlantCareDatabase.PRESET_CATEGORIES.size).toSet(), used)
+    }
+
+    @Test
+    fun catalog_hasEveryDifficultyAndBothToxicityValues() {
+        assertEquals(Difficulty.entries.toSet(), catalog.map { it.difficulty }.toSet())
+        assertTrue(catalog.any { it.toxicToPets })
+        assertTrue(catalog.any { !it.toxicToPets })
+    }
+
+    @Test
+    fun catalog_knownFamiliesAndTags() {
+        val byLatin = catalog.associateBy { it.latinName }
+        val cactus = byLatin.getValue("Echinopsis")
+        assertEquals("Кактусови", PlantCareDatabase.PRESET_CATEGORIES[(cactus.categoryId!! - 1).toInt()].name)
+        assertFalse(cactus.toxicToPets)
+        assertTrue(byLatin.getValue("Monstera deliciosa").toxicToPets)
+        assertEquals(Difficulty.HARD, byLatin.getValue("Ficus lyrata").difficulty)
     }
 
     @Test

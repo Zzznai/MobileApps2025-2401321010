@@ -1,7 +1,6 @@
 package com.naim.plantcare.ui.add
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -72,9 +71,7 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
         findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener { finish() }
 
         viewModel.species.observe(this) { list ->
-            actvSpecies.setAdapter(
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, list.map(AddPlantViewModel::speciesLabel))
-            )
+            actvSpecies.setAdapter(SpeciesAdapter(this, list.map(AddPlantViewModel::speciesLabel)))
             showSpeciesHint()
         }
 

@@ -75,6 +75,20 @@ class AddPlantViewModelTest {
     }
 
     @Test
+    fun filterLabels_matchesAnyPartIgnoringCase() {
+        val labels = species.map(AddPlantViewModel::speciesLabel)
+
+        val byMiddle = AddPlantViewModel.filterLabels(labels, "стер")
+        assertTrue(byMiddle.contains("Монстера (Monstera deliciosa)"))
+
+        val byLatin = AddPlantViewModel.filterLabels(labels, "DELICIOSA")
+        assertEquals(listOf("Монстера (Monstera deliciosa)"), byLatin)
+
+        assertEquals(labels, AddPlantViewModel.filterLabels(labels, "  "))
+        assertTrue(AddPlantViewModel.filterLabels(labels, "xyz123").isEmpty())
+    }
+
+    @Test
     fun buildPlant_copiesSpeciesData() {
         viewModel.setLastWatered(LocalDate.of(2026, 11, 10))
         val plant = viewModel.buildPlant("  Монстерата в хола  ", monstera, customDays = null)
@@ -82,7 +96,7 @@ class AddPlantViewModelTest {
         assertEquals("Монстерата в хола", plant.name)
         assertEquals("Monstera deliciosa", plant.species)
         assertEquals(monstera.id, plant.speciesId)
-        assertEquals(2L, plant.categoryId)
+        assertEquals(PlantCareDatabase.familyId("Araceae"), plant.categoryId)
         assertEquals(LocalDate.of(2026, 11, 10), plant.lastWatered)
         assertNull(plant.customWateringDays)
     }
@@ -96,6 +110,6 @@ class AddPlantViewModelTest {
         assertEquals(1, items.size)
         assertEquals("Монстерата в хола", items[0].plant.name)
         assertEquals(6, items[0].wateringDays)
-        assertEquals("Тропически", items[0].category?.name)
+        assertEquals("Ароидни", items[0].category?.name)
     }
 }
