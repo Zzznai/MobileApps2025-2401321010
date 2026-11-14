@@ -14,6 +14,22 @@
     <string name="no_category">Без категория</string>
     <string name="no_plants">Все още нямате растения</string>
 
+    <string name="title_add_plant">Ново растение</string>
+    <string name="add_plant">Добави растение</string>
+    <string name="hint_plant_name">Име на растението</string>
+    <string name="helper_plant_name">Например: Монстерата в хола</string>
+    <string name="hint_species">Вид (търсене)</string>
+    <string name="hint_custom_days">Собствен интервал (дни)</string>
+    <string name="helper_custom_days">Оставете празно, за да се ползват сезонните стойности</string>
+    <string name="hint_last_watered">Последно поливане</string>
+    <string name="pick_date">Избери дата</string>
+    <string name="btn_save">Запази</string>
+    <string name="plant_saved">Растението е добавено</string>
+    <string name="species_hint">%1$s · %2$s: %3$s</string>
+    <string name="error_plant_name">Въведете име от 2 до 40 знака</string>
+    <string name="error_species_required">Изберете вид от списъка</string>
+    <string name="error_watering_days">Въведете число от 1 до 90</string>
+
     <string name="label_light">Светлина</string>
     <string name="label_seasons">Поливане по сезони</string>
     <string name="season_line">%1$s: %2$s</string>
