@@ -4,28 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.naim.plantcare.R
-import com.naim.plantcare.model.Plant
+import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.WateringStatusText
 
 class PlantAdapter(
     private val onPlantClick: (Plant) -> Unit
-) : RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
-    private var items: List<PlantItem> = emptyList()
-
-    class PlantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvInitial: TextView = view.findViewById(R.id.tvInitial)
-        val tvName: TextView = view.findViewById(R.id.tvName)
-        val tvSpecies: TextView = view.findViewById(R.id.tvSpecies)
-        val tvStatus: TextView = view.findViewById(R.id.tvStatus)
-    }
-
-    fun submitList(newItems: List<PlantItem>) {
-        items = newItems
-        notifyDataSetChanged()
-    }
+) : ListAdapter<PlantItem, PlantAdapter.PlantViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_plant, parent, false)
@@ -33,13 +22,34 @@ class PlantAdapter(
     }
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
-        val item = items[position]
-        holder.tvInitial.text = item.plant.name.take(1)
-        holder.tvName.text = item.plant.name
-        holder.tvSpecies.text = item.plant.species
-        WateringStatusText.show(holder.tvStatus, item.status)
-        holder.itemView.setOnClickListener { onPlantClick(item.plant) }
+        holder.bind(getItem(position), onPlantClick)
     }
 
-    override fun getItemCount(): Int = items.size
+    class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvInitial: TextView = itemView.findViewById(R.id.tvInitial)
+        private val tvName: TextView = itemView.findViewById(R.id.tvName)
+        private val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
+        private val tvSpecies: TextView = itemView.findViewById(R.id.tvSpecies)
+        private val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
+
+        fun bind(item: PlantItem, onPlantClick: (Plant) -> Unit) {
+            tvInitial.text = item.plant.name.take(1)
+            tvName.text = item.plant.name
+            tvCategory.text = item.category?.name
+                ?: itemView.context.getString(R.string.no_category)
+            tvSpecies.text = item.plant.species
+            WateringStatusText.show(tvStatus, item.status)
+            itemView.setOnClickListener { onPlantClick(item.plant) }
+        }
+    }
+
+    companion object {
+        private val DIFF = object : DiffUtil.ItemCallback<PlantItem>() {
+            override fun areItemsTheSame(oldItem: PlantItem, newItem: PlantItem): Boolean =
+                oldItem.plant.id == newItem.plant.id
+
+            override fun areContentsTheSame(oldItem: PlantItem, newItem: PlantItem): Boolean =
+                oldItem == newItem
+        }
+    }
 }

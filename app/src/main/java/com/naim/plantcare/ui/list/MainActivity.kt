@@ -7,15 +7,23 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.naim.plantcare.R
-import com.naim.plantcare.model.Plant
+import com.naim.plantcare.data.PlantCareDatabase
+import com.naim.plantcare.data.entity.Plant
+import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.ui.detail.PlantDetailActivity
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: PlantListViewModel by viewModels()
+    private val viewModel: PlantListViewModel by viewModels {
+        val db = PlantCareDatabase.getInstance(applicationContext)
+        PlantListViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()))
+    }
 
     private lateinit var rvPlants: RecyclerView
+    private lateinit var tvEmpty: TextView
     private lateinit var adapter: PlantAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +37,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         rvPlants = findViewById(R.id.rvPlants)
+        tvEmpty = findViewById(R.id.tvEmpty)
         adapter = PlantAdapter { plant -> openDetails(plant) }
         rvPlants.adapter = adapter
 
-        viewModel.plants.observe(this) { plants -> adapter.submitList(plants) }
+        viewModel.plants.observe(this) { plants ->
+            adapter.submitList(plants)
+            tvEmpty.visibility = if (plants.isEmpty()) View.VISIBLE else View.GONE
+        }
     }
 
     private fun openDetails(plant: Plant) {

@@ -1,6 +1,8 @@
 package com.naim.plantcare.ui.detail
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +12,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.naim.plantcare.R
+import com.naim.plantcare.data.PlantCareDatabase
+import com.naim.plantcare.data.repository.PlantRepository
+import com.naim.plantcare.logic.Season
 import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.WateringStatusText
 import java.time.format.DateTimeFormatter
@@ -21,16 +26,23 @@ class PlantDetailActivity : AppCompatActivity() {
         private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     }
 
-    private val viewModel: PlantDetailViewModel by viewModels()
+    private val viewModel: PlantDetailViewModel by viewModels {
+        val db = PlantCareDatabase.getInstance(applicationContext)
+        PlantDetailViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()))
+    }
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tvInitial: TextView
     private lateinit var tvName: TextView
     private lateinit var tvSpecies: TextView
+    private lateinit var tvCategory: TextView
     private lateinit var tvStatus: TextView
     private lateinit var tvInterval: TextView
     private lateinit var tvLastWatered: TextView
     private lateinit var tvNextWatering: TextView
+    private lateinit var cardCare: View
+    private lateinit var tvLight: TextView
+    private lateinit var seasonViews: Map<Season, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +58,19 @@ class PlantDetailActivity : AppCompatActivity() {
         tvInitial = findViewById(R.id.tvInitial)
         tvName = findViewById(R.id.tvName)
         tvSpecies = findViewById(R.id.tvSpecies)
+        tvCategory = findViewById(R.id.tvCategory)
         tvStatus = findViewById(R.id.tvStatus)
         tvInterval = findViewById(R.id.tvInterval)
         tvLastWatered = findViewById(R.id.tvLastWatered)
         tvNextWatering = findViewById(R.id.tvNextWatering)
+        cardCare = findViewById(R.id.cardCare)
+        tvLight = findViewById(R.id.tvLight)
+        seasonViews = mapOf(
+            Season.SPRING to findViewById(R.id.tvSpring),
+            Season.SUMMER to findViewById(R.id.tvSummer),
+            Season.AUTUMN to findViewById(R.id.tvAutumn),
+            Season.WINTER to findViewById(R.id.tvWinter)
+        )
 
         toolbar.setNavigationOnClickListener { finish() }
 
@@ -62,9 +83,7 @@ class PlantDetailActivity : AppCompatActivity() {
             }
         }
 
-        if (savedInstanceState == null) {
-            viewModel.loadPlant(intent.getLongExtra(EXTRA_PLANT_ID, -1L))
-        }
+        viewModel.loadPlant(intent.getLongExtra(EXTRA_PLANT_ID, -1L))
     }
 
     private fun showPlant(item: PlantItem) {
@@ -72,11 +91,33 @@ class PlantDetailActivity : AppCompatActivity() {
         tvInitial.text = plant.name.take(1)
         tvName.text = plant.name
         tvSpecies.text = plant.species
+        tvCategory.text = item.category?.name ?: getString(R.string.no_category)
         WateringStatusText.show(tvStatus, item.status)
-        tvInterval.text = resources.getQuantityString(
-            R.plurals.every_n_days, plant.wateringIntervalDays, plant.wateringIntervalDays
-        )
+        tvInterval.text = everyNDays(item.wateringDays)
         tvLastWatered.text = plant.lastWatered.format(DATE_FORMAT)
-        tvNextWatering.text = plant.nextWatering().format(DATE_FORMAT)
+        tvNextWatering.text = item.nextWatering.format(DATE_FORMAT)
+        showCare(item)
     }
+
+    private fun showCare(item: PlantItem) {
+        val species = item.species
+        if (species == null) {
+            cardCare.visibility = View.GONE
+            return
+        }
+        cardCare.visibility = View.VISIBLE
+        tvLight.text = getString(species.light.label)
+        val current = Season.of(item.plant.lastWatered)
+        seasonViews.forEach { (season, view) ->
+            view.text = getString(
+                R.string.season_line,
+                getString(season.label),
+                everyNDays(species.wateringDays(season))
+            )
+            view.setTypeface(null, if (season == current) Typeface.BOLD else Typeface.NORMAL)
+        }
+    }
+
+    private fun everyNDays(days: Int): String =
+        resources.getQuantityString(R.plurals.every_n_days, days, days)
 }

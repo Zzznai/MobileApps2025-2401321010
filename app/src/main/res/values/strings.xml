@@ -11,6 +11,24 @@
     <string name="label_next_watering">Следващо поливане</string>
     <string name="label_status">Статус</string>
     <string name="plant_not_found">Растението не е намерено</string>
+    <string name="no_category">Без категория</string>
+    <string name="no_plants">Все още нямате растения</string>
+
+    <string name="label_light">Светлина</string>
+    <string name="label_seasons">Поливане по сезони</string>
+    <string name="season_line">%1$s: %2$s</string>
+    <string name="care_disclaimer">Препоръчителни стойности. Нуждите зависят от саксията, почвата и температурата в стаята.</string>
+
+    <string name="season_spring">Пролет</string>
+    <string name="season_summer">Лято</string>
+    <string name="season_autumn">Есен</string>
+    <string name="season_winter">Зима</string>
+
+    <string name="light_full_shade">Пълна сянка</string>
+    <string name="light_partial_shade">Полусянка</string>
+    <string name="light_bright_indirect">Ярка разсеяна светлина</string>
+    <string name="light_partial_sun">Частично слънце</string>
+    <string name="light_full_sun">Пряко слънце</string>
 
     <string name="watering_today">Полей днес!</string>
     <plurals name="watering_in_days">

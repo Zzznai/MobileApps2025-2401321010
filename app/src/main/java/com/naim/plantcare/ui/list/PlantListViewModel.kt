@@ -1,25 +1,28 @@
 package com.naim.plantcare.ui.list
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.naim.plantcare.data.PlantRepository
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
+import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.WateringCalculator
 import com.naim.plantcare.ui.PlantItem
 
 class PlantListViewModel(
-    private val repository: PlantRepository = PlantRepository(),
+    repository: PlantRepository,
     private val calculator: WateringCalculator = WateringCalculator()
 ) : ViewModel() {
-    private val _plants = MutableLiveData<List<PlantItem>>()
-
-    val plants: LiveData<List<PlantItem>> = _plants
-
-    init {
-        loadPlants()
+    val plants: LiveData<List<PlantItem>> = repository.plants.map { list ->
+        list.map { PlantItem.from(it, calculator) }
     }
 
-    fun loadPlants() {
-        _plants.value = repository.getPlants().map { PlantItem(it, calculator.statusOf(it)) }
+    class Factory(private val repository: PlantRepository) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(PlantListViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return PlantListViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+        }
     }
 }
