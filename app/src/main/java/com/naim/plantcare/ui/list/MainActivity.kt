@@ -9,8 +9,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.naim.plantcare.R
 import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.Plant
@@ -27,6 +29,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvPlants: RecyclerView
     private lateinit var tvEmpty: TextView
     private lateinit var adapter: PlantAdapter
+    private lateinit var fabAdd: FloatingActionButton
+
+    private val swipeToDelete = object : ItemTouchHelper.SimpleCallback(
+        0,
+        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean = false
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.bindingAdapterPosition
+            if (position == RecyclerView.NO_POSITION) return
+            deleteWithUndo(adapter.currentList[position].plant)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +63,24 @@ class MainActivity : AppCompatActivity() {
         adapter = PlantAdapter { plant -> openDetails(plant) }
         rvPlants.adapter = adapter
 
-        findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
+        fabAdd = findViewById(R.id.fabAdd)
+        fabAdd.setOnClickListener {
             startActivity(Intent(this, AddPlantActivity::class.java))
         }
+        ItemTouchHelper(swipeToDelete).attachToRecyclerView(rvPlants)
 
         viewModel.plants.observe(this) { plants ->
             adapter.submitList(plants)
             tvEmpty.visibility = if (plants.isEmpty()) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun deleteWithUndo(plant: Plant) {
+        viewModel.delete(plant)
+        Snackbar.make(rvPlants, getString(R.string.plant_deleted, plant.name), Snackbar.LENGTH_LONG)
+            .setAnchorView(fabAdd)
+            .setAction(R.string.undo) { viewModel.restore(plant) }
+            .show()
     }
 
     private fun openDetails(plant: Plant) {

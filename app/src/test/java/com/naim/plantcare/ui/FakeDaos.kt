@@ -49,7 +49,8 @@ class FakePlantDao(
     )
 
     override suspend fun insert(plant: Plant): Long {
-        val saved = plant.copy(id = nextId++)
+        val saved = if (plant.id != 0L) plant else plant.copy(id = nextId++)
+        nextId = maxOf(nextId, saved.id + 1)
         plants.value = plants.value.orEmpty() + saved
         return saved.id
     }

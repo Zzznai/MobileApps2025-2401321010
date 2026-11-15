@@ -14,6 +14,19 @@
     <string name="no_category">Без семейство</string>
     <string name="no_plants">Все още нямате растения</string>
 
+    <string name="action_edit">Редактирай</string>
+    <string name="action_delete">Изтрий</string>
+    <string name="btn_watered_today">Полей</string>
+    <string name="watered_today_message">„%1$s“ е полято днес</string>
+    <string name="undo">Отмени</string>
+    <string name="cancel">Отказ</string>
+    <string name="delete_title">Изтриване на растение</string>
+    <string name="delete_message">Сигурни ли сте, че искате да изтриете „%1$s“?</string>
+    <string name="plant_deleted">„%1$s“ е изтрито</string>
+    <string name="title_edit_plant">Редактиране на растение</string>
+    <string name="btn_save_changes">Запази промените</string>
+    <string name="plant_updated">Промените са запазени</string>
+
     <string name="title_add_plant">Ново растение</string>
     <string name="add_plant">Добави растение</string>
     <string name="hint_plant_name">Име на растението</string>

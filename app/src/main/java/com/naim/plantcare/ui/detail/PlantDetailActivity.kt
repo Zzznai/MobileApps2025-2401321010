@@ -1,5 +1,6 @@
 package com.naim.plantcare.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -10,13 +11,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.naim.plantcare.R
 import com.naim.plantcare.data.PlantCareDatabase
+import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
 import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.WateringStatusText
+import com.naim.plantcare.ui.add.AddPlantActivity
 import java.time.format.DateTimeFormatter
 
 class PlantDetailActivity : AppCompatActivity() {
@@ -74,17 +80,70 @@ class PlantDetailActivity : AppCompatActivity() {
         tvToxic = findViewById(R.id.tvToxic)
 
         toolbar.setNavigationOnClickListener { finish() }
-
-        viewModel.plant.observe(this) { item ->
-            if (item == null) {
-                Toast.makeText(this, R.string.plant_not_found, Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                showPlant(item)
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_edit -> {
+                    openEditor()
+                    true
+                }
+                R.id.action_delete -> {
+                    confirmDelete()
+                    true
+                }
+                else -> false
             }
         }
 
-        viewModel.loadPlant(intent.getLongExtra(EXTRA_PLANT_ID, -1L))
+        findViewById<MaterialButton>(R.id.btnWatered).setOnClickListener { markWatered() }
+
+        viewModel.plant.observe(this) { item ->
+            when {
+                item != null -> showPlant(item)
+                viewModel.deleted.value == true -> Unit
+                else -> {
+                    Toast.makeText(this, R.string.plant_not_found, Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
+        }
+
+        viewModel.deleted.observe(this) { deleted ->
+            if (deleted) finish()
+        }
+
+        viewModel.loadPlant(plantId())
+    }
+
+    private fun plantId(): Long = intent.getLongExtra(EXTRA_PLANT_ID, -1L)
+
+    private fun currentPlant(): Plant? = viewModel.plant.value?.plant
+
+    private fun openEditor() {
+        val intent = Intent(this, AddPlantActivity::class.java)
+        intent.putExtra(AddPlantActivity.EXTRA_PLANT_ID, plantId())
+        startActivity(intent)
+    }
+
+    private fun markWatered() {
+        val plant = currentPlant() ?: return
+        viewModel.markWatered(plant)
+        Snackbar.make(toolbar, getString(R.string.watered_today_message, plant.name), Snackbar.LENGTH_LONG)
+            .setAction(R.string.undo) { viewModel.undoWatered(plant) }
+            .show()
+    }
+
+    private fun confirmDelete() {
+        val plant = currentPlant() ?: return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.delete_title)
+            .setMessage(getString(R.string.delete_message, plant.name))
+            .setIcon(R.drawable.ic_delete)
+            .setPositiveButton(R.string.action_delete) { _, _ ->
+                viewModel.delete(plant)
+                Toast.makeText(this, getString(R.string.plant_deleted, plant.name), Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun showPlant(item: PlantItem) {
