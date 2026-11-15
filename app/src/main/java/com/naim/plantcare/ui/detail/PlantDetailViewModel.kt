@@ -6,13 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.WateringCalculator
 import com.naim.plantcare.ui.PlantItem
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class PlantDetailViewModel(
     private val repository: PlantRepository,
-    private val calculator: WateringCalculator = WateringCalculator()
+    private val calculator: WateringCalculator = WateringCalculator(),
+    private val today: () -> LocalDate = { LocalDate.now() }
 ) : ViewModel() {
     private val plantId = MutableLiveData<Long>()
 
@@ -22,8 +27,24 @@ class PlantDetailViewModel(
         }
     }
 
+    private val _deleted = MutableLiveData(false)
+    val deleted: LiveData<Boolean> = _deleted
+
     fun loadPlant(id: Long) {
         if (plantId.value != id) plantId.value = id
+    }
+
+    fun markWatered(plant: Plant) {
+        viewModelScope.launch { repository.update(plant.copy(lastWatered = today())) }
+    }
+
+    fun undoWatered(previous: Plant) {
+        viewModelScope.launch { repository.update(previous) }
+    }
+
+    fun delete(plant: Plant) {
+        _deleted.value = true
+        viewModelScope.launch { repository.delete(plant) }
     }
 
     class Factory(private val repository: PlantRepository) : ViewModelProvider.Factory {

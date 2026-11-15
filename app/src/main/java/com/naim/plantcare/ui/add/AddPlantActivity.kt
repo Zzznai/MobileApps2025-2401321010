@@ -29,6 +29,8 @@ import java.time.format.DateTimeFormatter
 
 class AddPlantActivity : AppCompatActivity(), Validatable {
     companion object {
+        const val EXTRA_PLANT_ID = "com.naim.plantcare.EXTRA_EDIT_PLANT_ID"
+
         private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         private const val DATE_PICKER_TAG = "last_watered_picker"
     }
@@ -68,7 +70,23 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
         etCustomDays = findViewById(R.id.etCustomDays)
         etLastWatered = findViewById(R.id.etLastWatered)
 
-        findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener { finish() }
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener { finish() }
+        val btnSave = findViewById<MaterialButton>(R.id.btnSave)
+
+        val editId = intent.getLongExtra(EXTRA_PLANT_ID, -1L)
+        if (editId != -1L) {
+            toolbar.setTitle(R.string.title_edit_plant)
+            btnSave.setText(R.string.btn_save_changes)
+            viewModel.plantToEdit(editId).observe(this) { details ->
+                if (details != null && viewModel.startEditing(details.plant)) {
+                    etName.setText(details.plant.name)
+                    details.species?.let { actvSpecies.setText(AddPlantViewModel.speciesLabel(it), false) }
+                    etCustomDays.setText(details.plant.customWateringDays?.toString().orEmpty())
+                    showSpeciesHint()
+                }
+            }
+        }
 
         viewModel.species.observe(this) { list ->
             actvSpecies.setAdapter(SpeciesAdapter(this, list.map(AddPlantViewModel::speciesLabel)))
@@ -89,12 +107,13 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
 
         viewModel.saved.observe(this) { saved ->
             if (saved) {
-                Toast.makeText(this, R.string.plant_saved, Toast.LENGTH_SHORT).show()
+                val message = if (viewModel.isEditing) R.string.plant_updated else R.string.plant_saved
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
 
-        findViewById<MaterialButton>(R.id.btnSave).setOnClickListener { savePlant() }
+        btnSave.setOnClickListener { savePlant() }
     }
 
     override fun validationRules(): List<ValidationRule> = listOf(

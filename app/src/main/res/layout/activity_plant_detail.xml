@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:navigationContentDescription="@string/navigate_back"
+        app:menu="@menu/menu_plant_detail"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="@string/title_plant_details"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,15 +83,26 @@
                 app:layout_constraintTop_toBottomOf="@id/tvSpecies"
                 tools:text="Черничеви (Moraceae)" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWatered"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/btn_watered_today"
+                app:icon="@drawable/ic_water_drop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCategory" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardWatering"
                 style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvCategory">
+                app:layout_constraintTop_toBottomOf="@id/btnWatered">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.entity.PlantSpecies
+import com.naim.plantcare.data.entity.PlantWithDetails
 import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
 import kotlinx.coroutines.launch
@@ -24,6 +25,20 @@ class AddPlantViewModel(
     private val _saved = MutableLiveData(false)
     val saved: LiveData<Boolean> = _saved
 
+    private var editing: Plant? = null
+
+    val isEditing: Boolean
+        get() = editing != null
+
+    fun plantToEdit(id: Long): LiveData<PlantWithDetails?> = repository.plant(id)
+
+    fun startEditing(plant: Plant): Boolean {
+        if (editing != null) return false
+        editing = plant
+        _lastWatered.value = plant.lastWatered
+        return true
+    }
+
     fun setLastWatered(date: LocalDate) {
         _lastWatered.value = if (date.isAfter(today())) today() else date
     }
@@ -34,19 +49,28 @@ class AddPlantViewModel(
     fun currentWateringDays(species: PlantSpecies): Int =
         species.wateringDays(Season.of(_lastWatered.value ?: today()))
 
-    fun buildPlant(name: String, species: PlantSpecies, customDays: Int?): Plant = Plant(
-        name = name.trim(),
-        species = species.latinName,
-        lastWatered = _lastWatered.value ?: today(),
-        categoryId = species.categoryId,
-        speciesId = species.id,
-        customWateringDays = customDays
-    )
+    fun buildPlant(name: String, species: PlantSpecies, customDays: Int?): Plant {
+        val base = editing ?: Plant(
+            name = "",
+            species = "",
+            lastWatered = today(),
+            categoryId = null
+        )
+        return base.copy(
+            name = name.trim(),
+            species = species.latinName,
+            lastWatered = _lastWatered.value ?: today(),
+            categoryId = species.categoryId,
+            speciesId = species.id,
+            customWateringDays = customDays
+        )
+    }
 
     fun save(name: String, species: PlantSpecies, customDays: Int?) {
         val plant = buildPlant(name, species, customDays)
+        val update = isEditing
         viewModelScope.launch {
-            repository.insert(plant)
+            if (update) repository.update(plant) else repository.insert(plant)
             _saved.value = true
         }
     }
