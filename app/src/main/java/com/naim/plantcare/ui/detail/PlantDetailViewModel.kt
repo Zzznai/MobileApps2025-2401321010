@@ -30,6 +30,13 @@ class PlantDetailViewModel(
     private val _deleted = MutableLiveData(false)
     val deleted: LiveData<Boolean> = _deleted
 
+    private val _detailsExpanded = MutableLiveData(false)
+    val detailsExpanded: LiveData<Boolean> = _detailsExpanded
+
+    fun toggleDetails() {
+        _detailsExpanded.value = _detailsExpanded.value != true
+    }
+
     fun loadPlant(id: Long) {
         if (plantId.value != id) plantId.value = id
     }

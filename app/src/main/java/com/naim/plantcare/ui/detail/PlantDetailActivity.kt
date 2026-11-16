@@ -1,18 +1,26 @@
 package com.naim.plantcare.ui.detail
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
+import android.graphics.Typeface
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.color.MaterialColors
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.naim.plantcare.R
@@ -20,6 +28,7 @@ import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
+import com.naim.plantcare.logic.WateringCalculator.WateringStatus
 import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.WateringStatusText
 import com.naim.plantcare.ui.add.AddPlantActivity
@@ -40,18 +49,20 @@ class PlantDetailActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tvInitial: TextView
     private lateinit var tvName: TextView
-    private lateinit var tvSpecies: TextView
-    private lateinit var tvCategory: TextView
+    private lateinit var tvSubtitle: TextView
+    private lateinit var cardStatus: MaterialCardView
     private lateinit var tvStatus: TextView
     private lateinit var tvInterval: TextView
+    private lateinit var btnWatered: MaterialButton
+    private lateinit var chipsCare: ChipGroup
+    private lateinit var chipLight: Chip
+    private lateinit var chipDifficulty: Chip
+    private lateinit var chipToxic: Chip
+    private lateinit var tvMoreToggle: TextView
+    private lateinit var layoutMore: LinearLayout
     private lateinit var tvLastWatered: TextView
     private lateinit var tvNextWatering: TextView
-    private lateinit var cardCare: View
-    private lateinit var tvLight: TextView
     private lateinit var tvLux: TextView
-    private lateinit var tvSeason: TextView
-    private lateinit var tvDifficulty: TextView
-    private lateinit var tvToxic: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,18 +77,20 @@ class PlantDetailActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         tvInitial = findViewById(R.id.tvInitial)
         tvName = findViewById(R.id.tvName)
-        tvSpecies = findViewById(R.id.tvSpecies)
-        tvCategory = findViewById(R.id.tvCategory)
+        tvSubtitle = findViewById(R.id.tvSubtitle)
+        cardStatus = findViewById(R.id.cardStatus)
         tvStatus = findViewById(R.id.tvStatus)
         tvInterval = findViewById(R.id.tvInterval)
+        btnWatered = findViewById(R.id.btnWatered)
+        chipsCare = findViewById(R.id.chipsCare)
+        chipLight = findViewById(R.id.chipLight)
+        chipDifficulty = findViewById(R.id.chipDifficulty)
+        chipToxic = findViewById(R.id.chipToxic)
+        tvMoreToggle = findViewById(R.id.tvMoreToggle)
+        layoutMore = findViewById(R.id.layoutMore)
         tvLastWatered = findViewById(R.id.tvLastWatered)
         tvNextWatering = findViewById(R.id.tvNextWatering)
-        cardCare = findViewById(R.id.cardCare)
-        tvLight = findViewById(R.id.tvLight)
         tvLux = findViewById(R.id.tvLux)
-        tvSeason = findViewById(R.id.tvSeason)
-        tvDifficulty = findViewById(R.id.tvDifficulty)
-        tvToxic = findViewById(R.id.tvToxic)
 
         toolbar.setNavigationOnClickListener { finish() }
         toolbar.setOnMenuItemClickListener { menuItem ->
@@ -94,7 +107,16 @@ class PlantDetailActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<MaterialButton>(R.id.btnWatered).setOnClickListener { markWatered() }
+        btnWatered.setOnClickListener { markWatered() }
+        tvMoreToggle.setOnClickListener { viewModel.toggleDetails() }
+
+        viewModel.detailsExpanded.observe(this) { expanded ->
+            layoutMore.visibility = if (expanded) View.VISIBLE else View.GONE
+            tvMoreToggle.setText(if (expanded) R.string.less_details else R.string.more_details)
+            tvMoreToggle.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0, 0, if (expanded) R.drawable.ic_collapse else R.drawable.ic_expand, 0
+            )
+        }
 
         viewModel.plant.observe(this) { item ->
             when {
@@ -150,39 +172,60 @@ class PlantDetailActivity : AppCompatActivity() {
         val plant = item.plant
         tvInitial.text = plant.name.take(1)
         tvName.text = plant.name
-        tvSpecies.text = plant.species
-        tvCategory.text = item.category?.let { getString(R.string.family_line, it.name, it.latinName) }
-            ?: getString(R.string.no_category)
-        WateringStatusText.show(tvStatus, item.status)
-        tvInterval.text = everyNDays(item.wateringDays)
-        tvLastWatered.text = plant.lastWatered.format(DATE_FORMAT)
-        tvNextWatering.text = item.nextWatering.format(DATE_FORMAT)
+        tvSubtitle.text = subtitle(item)
+        showStatus(item)
         showCare(item)
+        tvLastWatered.text = getString(R.string.last_watered_line, plant.lastWatered.format(DATE_FORMAT))
+        tvNextWatering.text = getString(R.string.next_watering_line, item.nextWatering.format(DATE_FORMAT))
+    }
+
+    private fun subtitle(item: PlantItem): CharSequence {
+        val text = SpannableStringBuilder()
+        text.append(item.plant.species, StyleSpan(Typeface.ITALIC), 0)
+        item.category?.let { text.append(" · ").append(it.name) }
+        return text
+    }
+
+    private fun showStatus(item: PlantItem) {
+        val (containerRes, onRes) = when (item.status) {
+            is WateringStatus.InDays -> R.color.status_ok_container to R.color.status_ok_on
+            is WateringStatus.Today -> R.color.status_today_container to R.color.status_today_on
+            is WateringStatus.Overdue -> R.color.status_overdue_container to R.color.status_overdue_on
+        }
+        val container = ContextCompat.getColor(this, containerRes)
+        val onColor = ContextCompat.getColor(this, onRes)
+
+        cardStatus.setCardBackgroundColor(container)
+        tvStatus.text = WateringStatusText.text(this, item.status)
+        tvStatus.setTextColor(onColor)
+        tvInterval.setTextColor(onColor)
+
+        val interval = everyNDays(item.wateringDays)
+        tvInterval.text = if (item.plant.customWateringDays == null && item.species != null) {
+            val season = getString(Season.of(item.plant.lastWatered).label).lowercase()
+            getString(R.string.interval_with_season, interval, season)
+        } else {
+            interval
+        }
+
+        btnWatered.backgroundTintList = ColorStateList.valueOf(onColor)
+        btnWatered.setTextColor(container)
+        btnWatered.iconTint = ColorStateList.valueOf(container)
     }
 
     private fun showCare(item: PlantItem) {
         val species = item.species
         if (species == null) {
-            cardCare.visibility = View.GONE
+            chipsCare.visibility = View.GONE
+            tvLux.visibility = View.GONE
             return
         }
-        cardCare.visibility = View.VISIBLE
-        tvLight.text = getString(species.light.label)
-        tvLux.text = getString(species.light.luxRange)
-        val season = Season.of(item.plant.lastWatered)
-        tvSeason.text = getString(
-            R.string.season_line,
-            getString(season.label),
-            everyNDays(species.wateringDays(season))
-        )
-        tvDifficulty.text = getString(species.difficulty.label)
-        tvToxic.text = getString(if (species.toxicToPets) R.string.toxic_yes else R.string.toxic_no)
-        val toxicColor = if (species.toxicToPets) {
-            androidx.appcompat.R.attr.colorError
-        } else {
-            com.google.android.material.R.attr.colorOnSurface
-        }
-        tvToxic.setTextColor(MaterialColors.getColor(tvToxic, toxicColor))
+        chipsCare.visibility = View.VISIBLE
+        chipLight.text = getString(species.light.label)
+        chipDifficulty.text = getString(species.difficulty.label)
+        chipToxic.visibility = if (species.toxicToPets) View.VISIBLE else View.GONE
+        tvLux.visibility = View.VISIBLE
+        tvLux.text = getString(R.string.light_need_line, getString(species.light.luxRange))
     }
 
     private fun everyNDays(days: Int): String =

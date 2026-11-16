@@ -44,11 +44,12 @@ class PlantViewModelsTest {
     }
 
     @Test
-    fun listViewModel_showsAllPlantsSortedWithSeasonalStatus() {
+    fun listViewModel_showsAllPlantsSortedByWateringNeed() {
         val items = PlantListViewModel(repository, calculator).plants.awaitValue()
 
         assertEquals(5, items.size)
-        assertEquals(items.map { it.plant.name }.sorted(), items.map { it.plant.name })
+        assertEquals("Орхидея", items.first().plant.name)
+        assertEquals(items.map { it.nextWatering }.sorted(), items.map { it.nextWatering })
         val orchid = items.first { it.plant.name == "Орхидея" }
         assertEquals(8, orchid.wateringDays)
         assertEquals(WateringStatus.Overdue(1), orchid.status)
