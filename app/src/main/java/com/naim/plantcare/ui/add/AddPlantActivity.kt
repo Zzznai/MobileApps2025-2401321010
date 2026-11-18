@@ -1,9 +1,13 @@
 package com.naim.plantcare.ui.add
 
+import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,13 +17,16 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.naim.plantcare.R
+import com.naim.plantcare.data.PhotoStorage
 import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.PlantSpecies
 import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
+import com.naim.plantcare.ui.PlantPhoto
 import com.naim.plantcare.validation.Validatable
 import com.naim.plantcare.validation.ValidationRule
 import java.time.Instant
@@ -33,12 +40,26 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
 
         private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         private const val DATE_PICKER_TAG = "last_watered_picker"
+        private const val KEY_PENDING_CAMERA = "pending_camera_path"
     }
+
+    private val photoStorage by lazy { PhotoStorage(applicationContext) }
 
     private val viewModel: AddPlantViewModel by viewModels {
         val db = PlantCareDatabase.getInstance(applicationContext)
-        AddPlantViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()))
+        AddPlantViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()), photoStorage)
     }
+
+    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        viewModel.onCameraResult(success)
+    }
+
+    private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uri?.let(viewModel::importFromGallery)
+    }
+
+    private lateinit var ivPhoto: ShapeableImageView
+    private lateinit var btnRemovePhoto: MaterialButton
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilSpecies: TextInputLayout
@@ -69,6 +90,21 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
         actvSpecies = findViewById(R.id.actvSpecies)
         etCustomDays = findViewById(R.id.etCustomDays)
         etLastWatered = findViewById(R.id.etLastWatered)
+        ivPhoto = findViewById(R.id.ivPhoto)
+        btnRemovePhoto = findViewById(R.id.btnRemovePhoto)
+
+        if (viewModel.pendingCameraPath == null) {
+            viewModel.pendingCameraPath = savedInstanceState?.getString(KEY_PENDING_CAMERA)
+        }
+        findViewById<MaterialButton>(R.id.btnTakePhoto).setOnClickListener { takePhoto() }
+        findViewById<MaterialButton>(R.id.btnPickPhoto).setOnClickListener {
+            pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        btnRemovePhoto.setOnClickListener { viewModel.removePhoto() }
+        viewModel.photoPath.observe(this) { path ->
+            PlantPhoto.showInForm(ivPhoto, path)
+            btnRemovePhoto.visibility = if (path == null) View.GONE else View.VISIBLE
+        }
 
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { finish() }
@@ -114,6 +150,21 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
         }
 
         btnSave.setOnClickListener { savePlant() }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_PENDING_CAMERA, viewModel.pendingCameraPath)
+    }
+
+    private fun takePhoto() {
+        val file = viewModel.createCameraFile() ?: return
+        try {
+            takePicture.launch(photoStorage.uriFor(file))
+        } catch (e: ActivityNotFoundException) {
+            viewModel.onCameraResult(false)
+            Toast.makeText(this, R.string.no_camera_app, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun validationRules(): List<ValidationRule> = listOf(

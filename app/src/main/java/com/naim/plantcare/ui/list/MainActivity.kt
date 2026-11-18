@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.naim.plantcare.R
+import com.naim.plantcare.data.PhotoStorage
 import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
@@ -72,6 +73,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.plants.observe(this) { plants ->
             adapter.submitList(plants)
             tvEmpty.visibility = if (plants.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+        if (savedInstanceState == null) {
+            viewModel.cleanUnusedPhotos(PhotoStorage(applicationContext))
         }
     }
 

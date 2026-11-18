@@ -70,4 +70,6 @@ class FakePlantDao(
         plants.map { list -> list.firstOrNull { it.id == id }?.let(::withDetails) }
 
     override fun count(): LiveData<Int> = plants.map { it.size }
+
+    override suspend fun photoPaths(): List<String> = plants.value.orEmpty().mapNotNull { it.photoPath }
 }

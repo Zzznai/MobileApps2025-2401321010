@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.graphics.Typeface
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -30,6 +31,7 @@ import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
 import com.naim.plantcare.logic.WateringCalculator.WateringStatus
 import com.naim.plantcare.ui.PlantItem
+import com.naim.plantcare.ui.PlantPhoto
 import com.naim.plantcare.ui.WateringStatusText
 import com.naim.plantcare.ui.add.AddPlantActivity
 import java.time.format.DateTimeFormatter
@@ -48,6 +50,7 @@ class PlantDetailActivity : AppCompatActivity() {
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tvInitial: TextView
+    private lateinit var ivPhoto: ImageView
     private lateinit var tvName: TextView
     private lateinit var tvSubtitle: TextView
     private lateinit var cardStatus: MaterialCardView
@@ -76,6 +79,7 @@ class PlantDetailActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         tvInitial = findViewById(R.id.tvInitial)
+        ivPhoto = findViewById(R.id.ivPhoto)
         tvName = findViewById(R.id.tvName)
         tvSubtitle = findViewById(R.id.tvSubtitle)
         cardStatus = findViewById(R.id.cardStatus)
@@ -171,6 +175,7 @@ class PlantDetailActivity : AppCompatActivity() {
     private fun showPlant(item: PlantItem) {
         val plant = item.plant
         tvInitial.text = plant.name.take(1)
+        PlantPhoto.showInBadge(ivPhoto, tvInitial, plant.photoPath)
         tvName.text = plant.name
         tvSubtitle.text = subtitle(item)
         showStatus(item)
