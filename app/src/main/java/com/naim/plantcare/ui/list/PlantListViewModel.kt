@@ -9,6 +9,8 @@ import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.WateringCalculator
 import com.naim.plantcare.ui.PlantItem
+import com.naim.plantcare.data.PhotoStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.Locale
@@ -39,6 +41,10 @@ class PlantListViewModel(
 
     fun restore(plant: Plant) {
         viewModelScope.launch { repository.insert(plant) }
+    }
+
+    fun cleanUnusedPhotos(storage: PhotoStorage) {
+        viewModelScope.launch(Dispatchers.IO) { storage.deleteUnused(repository.photoPaths()) }
     }
 
     class Factory(private val repository: PlantRepository) : ViewModelProvider.Factory {

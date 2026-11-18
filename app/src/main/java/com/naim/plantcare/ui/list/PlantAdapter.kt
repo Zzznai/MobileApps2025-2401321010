@@ -3,6 +3,7 @@ package com.naim.plantcare.ui.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.naim.plantcare.R
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.ui.PlantItem
+import com.naim.plantcare.ui.PlantPhoto
 import com.naim.plantcare.ui.WateringStatusText
 
 class PlantAdapter(
@@ -27,6 +29,7 @@ class PlantAdapter(
 
     class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvInitial: TextView = itemView.findViewById(R.id.tvInitial)
+        private val ivPhoto: ImageView = itemView.findViewById(R.id.ivPhoto)
         private val tvName: TextView = itemView.findViewById(R.id.tvName)
         private val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
         private val tvSpecies: TextView = itemView.findViewById(R.id.tvSpecies)
@@ -34,6 +37,7 @@ class PlantAdapter(
 
         fun bind(item: PlantItem, onPlantClick: (Plant) -> Unit) {
             tvInitial.text = item.plant.name.take(1)
+            PlantPhoto.showInBadge(ivPhoto, tvInitial, item.plant.photoPath)
             tvName.text = item.plant.name
             tvCategory.text = item.category?.name
                 ?: itemView.context.getString(R.string.no_category)

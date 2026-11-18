@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.naim.plantcare.data.dao.CategoryDao
 import com.naim.plantcare.data.dao.PlantDao
@@ -16,7 +17,7 @@ import java.time.LocalDate
 
 @Database(
     entities = [Plant::class, PlantCategory::class, PlantSpecies::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -163,6 +164,12 @@ abstract class PlantCareDatabase : RoomDatabase() {
         private fun samplePlant(name: String, species: String, family: String, lastWatered: LocalDate) =
             Plant(name = name, species = species, lastWatered = lastWatered, categoryId = familyId(family))
 
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE plants ADD COLUMN photoPath TEXT")
+            }
+        }
+
         fun getInstance(context: Context): PlantCareDatabase =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
@@ -171,6 +178,7 @@ abstract class PlantCareDatabase : RoomDatabase() {
                     "plantcare.db"
                 )
                     .addCallback(PrepopulateCallback(context.applicationContext))
+                    .addMigrations(MIGRATION_3_4)
                     .fallbackToDestructiveMigrationFrom(true, 1, 2)
                     .build()
                     .also { INSTANCE = it }

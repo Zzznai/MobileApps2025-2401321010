@@ -29,4 +29,6 @@ class PlantRepository(
     suspend fun update(plant: Plant) = plantDao.update(plant)
 
     suspend fun delete(plant: Plant) = plantDao.delete(plant)
+
+    suspend fun photoPaths(): Set<String> = plantDao.photoPaths().toSet()
 }

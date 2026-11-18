@@ -28,6 +28,19 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ф" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/plant_photo"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tvInitial"
+            app:layout_constraintStart_toStartOf="@id/tvInitial"
+            app:layout_constraintTop_toTopOf="@id/tvInitial"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.PlantCare.Circle" />
+
+
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"

@@ -31,5 +31,6 @@ data class Plant(
     val lastWatered: LocalDate,
     val categoryId: Long?,
     val speciesId: Long? = null,
-    val customWateringDays: Int? = null
+    val customWateringDays: Int? = null,
+    val photoPath: String? = null
 )

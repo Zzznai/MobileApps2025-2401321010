@@ -31,4 +31,7 @@ interface PlantDao {
 
     @Query("SELECT COUNT(*) FROM plants")
     fun count(): LiveData<Int>
+
+    @Query("SELECT photoPath FROM plants WHERE photoPath IS NOT NULL")
+    suspend fun photoPaths(): List<String>
 }
