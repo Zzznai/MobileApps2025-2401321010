@@ -34,6 +34,7 @@ import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.PlantPhoto
 import com.naim.plantcare.ui.WateringStatusText
 import com.naim.plantcare.ui.add.AddPlantActivity
+import com.naim.plantcare.ui.light.LightMeterActivity
 import java.time.format.DateTimeFormatter
 
 class PlantDetailActivity : AppCompatActivity() {
@@ -61,6 +62,7 @@ class PlantDetailActivity : AppCompatActivity() {
     private lateinit var chipLight: Chip
     private lateinit var chipDifficulty: Chip
     private lateinit var chipToxic: Chip
+    private lateinit var btnMeasureLight: MaterialButton
     private lateinit var tvMoreToggle: TextView
     private lateinit var layoutMore: LinearLayout
     private lateinit var tvLastWatered: TextView
@@ -90,6 +92,7 @@ class PlantDetailActivity : AppCompatActivity() {
         chipLight = findViewById(R.id.chipLight)
         chipDifficulty = findViewById(R.id.chipDifficulty)
         chipToxic = findViewById(R.id.chipToxic)
+        btnMeasureLight = findViewById(R.id.btnMeasureLight)
         tvMoreToggle = findViewById(R.id.tvMoreToggle)
         layoutMore = findViewById(R.id.layoutMore)
         tvLastWatered = findViewById(R.id.tvLastWatered)
@@ -112,6 +115,7 @@ class PlantDetailActivity : AppCompatActivity() {
         }
 
         btnWatered.setOnClickListener { markWatered() }
+        btnMeasureLight.setOnClickListener { openLightMeter() }
         tvMoreToggle.setOnClickListener { viewModel.toggleDetails() }
 
         viewModel.detailsExpanded.observe(this) { expanded ->
@@ -147,6 +151,14 @@ class PlantDetailActivity : AppCompatActivity() {
     private fun openEditor() {
         val intent = Intent(this, AddPlantActivity::class.java)
         intent.putExtra(AddPlantActivity.EXTRA_PLANT_ID, plantId())
+        startActivity(intent)
+    }
+
+    private fun openLightMeter() {
+        val item = viewModel.plant.value ?: return
+        val intent = Intent(this, LightMeterActivity::class.java)
+        intent.putExtra(LightMeterActivity.EXTRA_PLANT_NAME, item.plant.name)
+        intent.putExtra(LightMeterActivity.EXTRA_LIGHT_LEVEL, item.species?.light?.name)
         startActivity(intent)
     }
 
@@ -222,10 +234,12 @@ class PlantDetailActivity : AppCompatActivity() {
         val species = item.species
         if (species == null) {
             chipsCare.visibility = View.GONE
+            btnMeasureLight.visibility = View.GONE
             tvLux.visibility = View.GONE
             return
         }
         chipsCare.visibility = View.VISIBLE
+        btnMeasureLight.visibility = View.VISIBLE
         chipLight.text = getString(species.light.label)
         chipDifficulty.text = getString(species.difficulty.label)
         chipToxic.visibility = if (species.toxicToPets) View.VISIBLE else View.GONE
