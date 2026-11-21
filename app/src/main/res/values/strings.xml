@@ -2,6 +2,10 @@
     <string name="app_name">PlantCare</string>
 
     <string name="title_my_plants">Моите растения</string>
+    <string name="action_theme">Тема</string>
+    <string name="theme_system">Като системата</string>
+    <string name="theme_light">Светла</string>
+    <string name="theme_dark">Тъмна</string>
     <string name="title_plant_details">Детайли за растение</string>
     <string name="navigate_back">Назад</string>
 

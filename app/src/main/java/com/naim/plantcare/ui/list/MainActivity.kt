@@ -11,11 +11,14 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.naim.plantcare.PlantCareApp
 import com.naim.plantcare.R
 import com.naim.plantcare.data.entity.Plant
+import com.naim.plantcare.settings.ThemeMode
 import com.naim.plantcare.ui.add.AddPlantActivity
 import com.naim.plantcare.ui.detail.PlantDetailActivity
 
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private val container by lazy { (application as PlantCareApp).container }
 
+    private lateinit var toolbar: MaterialToolbar
     private lateinit var rvPlants: RecyclerView
     private lateinit var tvEmpty: TextView
     private lateinit var adapter: PlantAdapter
@@ -58,6 +62,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        toolbar = findViewById(R.id.toolbar)
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.action_theme) {
+                chooseTheme()
+                true
+            } else {
+                false
+            }
+        }
+
         rvPlants = findViewById(R.id.rvPlants)
         tvEmpty = findViewById(R.id.tvEmpty)
         adapter = PlantAdapter { plant -> openDetails(plant) }
@@ -77,6 +91,20 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             viewModel.cleanUnusedPhotos(container.photoStorage)
         }
+    }
+
+    private fun chooseTheme() {
+        val settings = container.themeSettings
+        val modes = ThemeMode.entries
+        val labels = modes.map { getString(it.label) }.toTypedArray()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.action_theme)
+            .setSingleChoiceItems(labels, modes.indexOf(settings.mode)) { dialog, which ->
+                dialog.dismiss()
+                settings.change(modes[which])
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun deleteWithUndo(plant: Plant) {
