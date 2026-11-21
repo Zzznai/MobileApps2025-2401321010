@@ -20,11 +20,9 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.naim.plantcare.PlantCareApp
 import com.naim.plantcare.R
-import com.naim.plantcare.data.PhotoStorage
-import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.PlantSpecies
-import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
 import com.naim.plantcare.ui.PlantPhoto
 import com.naim.plantcare.validation.Validatable
@@ -43,11 +41,11 @@ class AddPlantActivity : AppCompatActivity(), Validatable {
         private const val KEY_PENDING_CAMERA = "pending_camera_path"
     }
 
-    private val photoStorage by lazy { PhotoStorage(applicationContext) }
+    private val container by lazy { (application as PlantCareApp).container }
+    private val photoStorage by lazy { container.photoStorage }
 
     private val viewModel: AddPlantViewModel by viewModels {
-        val db = PlantCareDatabase.getInstance(applicationContext)
-        AddPlantViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()), photoStorage)
+        AddPlantViewModel.Factory(container.plantRepository, photoStorage)
     }
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->

@@ -24,10 +24,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.naim.plantcare.PlantCareApp
 import com.naim.plantcare.R
-import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.Plant
-import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.logic.Season
 import com.naim.plantcare.logic.WateringCalculator.WateringStatus
 import com.naim.plantcare.ui.PlantItem
@@ -45,8 +44,7 @@ class PlantDetailActivity : AppCompatActivity() {
     }
 
     private val viewModel: PlantDetailViewModel by viewModels {
-        val db = PlantCareDatabase.getInstance(applicationContext)
-        PlantDetailViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()))
+        PlantDetailViewModel.Factory((application as PlantCareApp).container.plantRepository)
     }
 
     private lateinit var toolbar: MaterialToolbar

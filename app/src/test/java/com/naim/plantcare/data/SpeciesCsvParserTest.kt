@@ -108,7 +108,7 @@ class SpeciesCsvParserTest {
     @Test
     fun catalog_containsSamplePlants() {
         val latinNames = catalog.map { it.latinName }.toSet()
-        PlantCareDatabase.samplePlants(java.time.LocalDate.now()).forEach {
+        SamplePlants.create(java.time.LocalDate.now()).forEach {
             assertTrue("missing ${it.species}", it.species in latinNames)
         }
     }

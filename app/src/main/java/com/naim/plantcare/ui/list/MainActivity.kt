@@ -13,19 +13,18 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.naim.plantcare.PlantCareApp
 import com.naim.plantcare.R
-import com.naim.plantcare.data.PhotoStorage
-import com.naim.plantcare.data.PlantCareDatabase
 import com.naim.plantcare.data.entity.Plant
-import com.naim.plantcare.data.repository.PlantRepository
 import com.naim.plantcare.ui.add.AddPlantActivity
 import com.naim.plantcare.ui.detail.PlantDetailActivity
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: PlantListViewModel by viewModels {
-        val db = PlantCareDatabase.getInstance(applicationContext)
-        PlantListViewModel.Factory(PlantRepository(db.plantDao(), db.categoryDao(), db.speciesDao()))
+        PlantListViewModel.Factory(container.plantRepository)
     }
+
+    private val container by lazy { (application as PlantCareApp).container }
 
     private lateinit var rvPlants: RecyclerView
     private lateinit var tvEmpty: TextView
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            viewModel.cleanUnusedPhotos(PhotoStorage(applicationContext))
+            viewModel.cleanUnusedPhotos(container.photoStorage)
         }
     }
 

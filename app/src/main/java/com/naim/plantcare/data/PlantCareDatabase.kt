@@ -13,7 +13,6 @@ import com.naim.plantcare.data.dao.SpeciesDao
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.entity.PlantCategory
 import com.naim.plantcare.data.entity.PlantSpecies
-import java.time.LocalDate
 
 @Database(
     entities = [Plant::class, PlantCategory::class, PlantSpecies::class],
@@ -79,19 +78,6 @@ abstract class PlantCareDatabase : RoomDatabase() {
                     )
                 )
             }
-            samplePlants(LocalDate.now()).forEach { plant ->
-                db.execSQL(
-                    "INSERT INTO plants (name, species, lastWatered, categoryId, speciesId) " +
-                        "VALUES (?, ?, ?, ?, (SELECT id FROM plant_species WHERE latinName = ?))",
-                    arrayOf(
-                        plant.name,
-                        plant.species,
-                        plant.lastWatered.toEpochDay(),
-                        plant.categoryId,
-                        plant.species
-                    )
-                )
-            }
         }
     }
 
@@ -152,17 +138,6 @@ abstract class PlantCareDatabase : RoomDatabase() {
             require(index >= 0) { "Unknown plant family: $latinName" }
             return index + 1L
         }
-
-        fun samplePlants(today: LocalDate): List<Plant> = listOf(
-            samplePlant("Фикус", "Ficus elastica", "Moraceae", today.minusDays(3)),
-            samplePlant("Монстера", "Monstera deliciosa", "Araceae", today.minusDays(5)),
-            samplePlant("Кактус", "Echinopsis", "Cactaceae", today.minusDays(2)),
-            samplePlant("Орхидея", "Phalaenopsis", "Orchidaceae", today.minusDays(9)),
-            samplePlant("Босилек", "Ocimum basilicum", "Lamiaceae", today.minusDays(1))
-        )
-
-        private fun samplePlant(name: String, species: String, family: String, lastWatered: LocalDate) =
-            Plant(name = name, species = species, lastWatered = lastWatered, categoryId = familyId(family))
 
         val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(db: SupportSQLiteDatabase) {

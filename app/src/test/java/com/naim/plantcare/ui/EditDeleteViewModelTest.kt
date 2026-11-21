@@ -2,6 +2,7 @@ package com.naim.plantcare.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.naim.plantcare.data.PlantCareDatabase
+import com.naim.plantcare.data.SamplePlants
 import com.naim.plantcare.data.SpeciesCsvParserTest
 import com.naim.plantcare.data.entity.Plant
 import com.naim.plantcare.data.repository.PlantRepository
@@ -47,7 +48,7 @@ class EditDeleteViewModelTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         val plantDao = FakePlantDao(categories, species)
         repository = PlantRepository(plantDao, FakeCategoryDao(categories), FakeSpeciesDao(species))
-        PlantCareDatabase.samplePlants(today).forEach { plant ->
+        SamplePlants.create(today).forEach { plant ->
             val speciesId = species.first { it.latinName == plant.species }.id
             plantDao.insert(plant.copy(speciesId = speciesId))
         }
