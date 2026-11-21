@@ -21,6 +21,17 @@
     <string name="last_watered_line">Последно поливане: %1$s</string>
     <string name="next_watering_line">Следващо поливане: %1$s</string>
     <string name="light_need_line">Нужна светлина: %1$s</string>
+    <string name="btn_measure_light">Измери светлината</string>
+    <string name="title_light_meter">Измерване на светлината</string>
+    <string name="light_meter_waiting">Измерване…</string>
+    <string name="light_meter_hint">Сложете телефона там, където стои растението, с екрана нагоре.</string>
+    <string name="no_light_sensor">Устройството няма сензор за светлина</string>
+    <string name="lux_value">%1$s lux</string>
+    <string name="light_levels_title">Нива на светлина</string>
+    <string name="light_needed_tag">нужно</string>
+    <string name="light_verdict_good">Подходящо място за „%1$s“</string>
+    <string name="light_verdict_dark">Твърде тъмно за „%1$s“. Преместете го по-близо до прозореца.</string>
+    <string name="light_verdict_bright">Твърде светло за „%1$s“. Прякото слънце може да изгори листата.</string>
     <string name="toxic_chip">Отровно за домашни любимци</string>
     <string name="plant_photo">Снимка на растението</string>
     <string name="btn_take_photo">Снимай</string>

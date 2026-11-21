@@ -171,6 +171,15 @@
                     app:chipStrokeWidth="0dp" />
             </com.google.android.material.chip.ChipGroup>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeasureLight"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/btn_measure_light"
+                app:icon="@drawable/ic_sun" />
+
             <TextView
                 android:id="@+id/tvMoreToggle"
                 android:layout_width="match_parent"
