@@ -12,7 +12,7 @@ import com.naim.plantcare.data.entity.PlantWithDetails
 class PlantRepository(
     private val plantDao: PlantDao,
     private val categoryDao: CategoryDao,
-    private val speciesDao: SpeciesDao
+    private val speciesDao: SpeciesDao,
 ) {
     val plants: LiveData<List<PlantWithDetails>> = plantDao.getAll()
 

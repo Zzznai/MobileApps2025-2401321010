@@ -6,7 +6,7 @@ data class ValidationRule(
     val layout: TextInputLayout,
     val regex: Regex,
     val errorMessage: String,
-    val allowEmpty: Boolean = true
+    val allowEmpty: Boolean = true,
 ) {
     fun validate(): Boolean {
         val text = layout.editText?.text?.toString()?.trim().orEmpty()

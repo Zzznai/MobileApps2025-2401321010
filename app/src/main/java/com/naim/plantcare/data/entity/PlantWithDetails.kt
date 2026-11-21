@@ -8,5 +8,5 @@ data class PlantWithDetails(
     @Relation(parentColumn = "categoryId", entityColumn = "id")
     val category: PlantCategory?,
     @Relation(parentColumn = "speciesId", entityColumn = "id")
-    val species: PlantSpecies?
+    val species: PlantSpecies?,
 )

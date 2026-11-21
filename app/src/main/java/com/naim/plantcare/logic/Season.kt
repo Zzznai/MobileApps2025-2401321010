@@ -9,7 +9,8 @@ enum class Season(@StringRes val label: Int) {
     SPRING(R.string.season_spring),
     SUMMER(R.string.season_summer),
     AUTUMN(R.string.season_autumn),
-    WINTER(R.string.season_winter);
+    WINTER(R.string.season_winter),
+    ;
 
     companion object {
         fun of(date: LocalDate): Season = when (date.month) {

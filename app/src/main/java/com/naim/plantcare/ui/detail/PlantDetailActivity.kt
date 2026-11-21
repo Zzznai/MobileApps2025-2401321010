@@ -2,10 +2,10 @@ package com.naim.plantcare.ui.detail
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
-import android.graphics.Typeface
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -98,36 +98,20 @@ class PlantDetailActivity : AppCompatActivity() {
         tvLux = findViewById(R.id.tvLux)
 
         toolbar.setNavigationOnClickListener { finish() }
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_edit -> {
-                    openEditor()
-                    true
-                }
-                R.id.action_delete -> {
-                    confirmDelete()
-                    true
-                }
-                else -> false
-            }
-        }
+        toolbar.setOnMenuItemClickListener { menuItem -> onMenuItem(menuItem.itemId) }
 
         btnWatered.setOnClickListener { markWatered() }
         btnMeasureLight.setOnClickListener { openLightMeter() }
         tvMoreToggle.setOnClickListener { viewModel.toggleDetails() }
 
-        viewModel.detailsExpanded.observe(this) { expanded ->
-            layoutMore.visibility = if (expanded) View.VISIBLE else View.GONE
-            tvMoreToggle.setText(if (expanded) R.string.less_details else R.string.more_details)
-            tvMoreToggle.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0, 0, if (expanded) R.drawable.ic_collapse else R.drawable.ic_expand, 0
-            )
-        }
+        viewModel.detailsExpanded.observe(this) { expanded -> showDetailsExpanded(expanded) }
 
         viewModel.plant.observe(this) { item ->
             when {
                 item != null -> showPlant(item)
+
                 viewModel.deleted.value == true -> Unit
+
                 else -> {
                     Toast.makeText(this, R.string.plant_not_found, Toast.LENGTH_SHORT).show()
                     finish()
@@ -140,6 +124,31 @@ class PlantDetailActivity : AppCompatActivity() {
         }
 
         viewModel.loadPlant(plantId())
+    }
+
+    private fun onMenuItem(itemId: Int): Boolean = when (itemId) {
+        R.id.action_edit -> {
+            openEditor()
+            true
+        }
+
+        R.id.action_delete -> {
+            confirmDelete()
+            true
+        }
+
+        else -> false
+    }
+
+    private fun showDetailsExpanded(expanded: Boolean) {
+        layoutMore.visibility = if (expanded) View.VISIBLE else View.GONE
+        tvMoreToggle.setText(if (expanded) R.string.less_details else R.string.more_details)
+        tvMoreToggle.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            0,
+            0,
+            if (expanded) R.drawable.ic_collapse else R.drawable.ic_expand,
+            0,
+        )
     }
 
     private fun plantId(): Long = intent.getLongExtra(EXTRA_PLANT_ID, -1L)
@@ -245,6 +254,5 @@ class PlantDetailActivity : AppCompatActivity() {
         tvLux.text = getString(R.string.light_need_line, getString(species.light.luxRange))
     }
 
-    private fun everyNDays(days: Int): String =
-        resources.getQuantityString(R.plurals.every_n_days, days, days)
+    private fun everyNDays(days: Int): String = resources.getQuantityString(R.plurals.every_n_days, days, days)
 }

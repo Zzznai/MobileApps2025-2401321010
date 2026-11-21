@@ -13,10 +13,10 @@ import com.naim.plantcare.logic.Season
             entity = PlantCategory::class,
             parentColumns = ["id"],
             childColumns = ["categoryId"],
-            onDelete = ForeignKey.SET_NULL
-        )
+            onDelete = ForeignKey.SET_NULL,
+        ),
     ],
-    indices = [Index(value = ["latinName"], unique = true), Index("categoryId")]
+    indices = [Index(value = ["latinName"], unique = true), Index("categoryId")],
 )
 data class PlantSpecies(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
@@ -29,7 +29,7 @@ data class PlantSpecies(
     val waterAutumnDays: Int,
     val waterWinterDays: Int,
     val difficulty: Difficulty,
-    val toxicToPets: Boolean
+    val toxicToPets: Boolean,
 ) {
     fun wateringDays(season: Season): Int = when (season) {
         Season.SPRING -> waterSpringDays

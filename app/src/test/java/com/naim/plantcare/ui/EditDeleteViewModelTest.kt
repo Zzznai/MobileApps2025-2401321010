@@ -60,8 +60,7 @@ class EditDeleteViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun plantNamed(name: String): Plant =
-        list.plants.awaitValue().first { it.plant.name == name }.plant
+    private fun plantNamed(name: String): Plant = list.plants.awaitValue().first { it.plant.name == name }.plant
 
     private fun detailFor(plant: Plant): PlantDetailViewModel =
         PlantDetailViewModel(repository, calculator) { today }.also { it.loadPlant(plant.id) }

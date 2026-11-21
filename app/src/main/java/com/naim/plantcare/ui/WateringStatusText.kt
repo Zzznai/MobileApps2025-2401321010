@@ -9,11 +9,17 @@ import com.naim.plantcare.logic.WateringCalculator.WateringStatus
 object WateringStatusText {
     fun text(context: Context, status: WateringStatus): String = when (status) {
         is WateringStatus.InDays -> context.resources.getQuantityString(
-            R.plurals.watering_in_days, status.days.toInt(), status.days
+            R.plurals.watering_in_days,
+            status.days.toInt(),
+            status.days,
         )
+
         is WateringStatus.Today -> context.getString(R.string.watering_today)
+
         is WateringStatus.Overdue -> context.resources.getQuantityString(
-            R.plurals.watering_overdue, status.days.toInt(), status.days
+            R.plurals.watering_overdue,
+            status.days.toInt(),
+            status.days,
         )
     }
 

@@ -70,7 +70,7 @@ class PlantDaoTest {
         name = name,
         species = "Species",
         lastWatered = LocalDate.of(2026, 11, 10),
-        categoryId = categoryId
+        categoryId = categoryId,
     )
 
     @Test
@@ -135,7 +135,7 @@ class PlantDaoTest {
             waterAutumnDays = 8,
             waterWinterDays = 12,
             difficulty = Difficulty.EASY,
-            toxicToPets = true
+            toxicToPets = true,
         )
     }
 }

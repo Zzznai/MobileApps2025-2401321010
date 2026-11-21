@@ -66,8 +66,8 @@ class PlantViewModelsTest {
                 species = "Aloe vera",
                 lastWatered = today,
                 categoryId = PlantCareDatabase.familyId("Asphodelaceae"),
-                customWateringDays = 14
-            )
+                customWateringDays = 14,
+            ),
         )
 
         val items = viewModel.plants.awaitValue()

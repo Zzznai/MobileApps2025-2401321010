@@ -14,9 +14,8 @@ import com.naim.plantcare.ui.PlantItem
 import com.naim.plantcare.ui.PlantPhoto
 import com.naim.plantcare.ui.WateringStatusText
 
-class PlantAdapter(
-    private val onPlantClick: (Plant) -> Unit
-) : ListAdapter<PlantItem, PlantAdapter.PlantViewHolder>(DIFF) {
+class PlantAdapter(private val onPlantClick: (Plant) -> Unit) :
+    ListAdapter<PlantItem, PlantAdapter.PlantViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_plant, parent, false)
@@ -52,8 +51,7 @@ class PlantAdapter(
             override fun areItemsTheSame(oldItem: PlantItem, newItem: PlantItem): Boolean =
                 oldItem.plant.id == newItem.plant.id
 
-            override fun areContentsTheSame(oldItem: PlantItem, newItem: PlantItem): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: PlantItem, newItem: PlantItem): Boolean = oldItem == newItem
         }
     }
 }

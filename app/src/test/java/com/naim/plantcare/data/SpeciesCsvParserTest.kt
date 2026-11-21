@@ -21,12 +21,17 @@ class SpeciesCsvParserTest {
 
     @Test
     fun parseLine_readsAllColumns() {
-        val species = SpeciesCsvParser.parseLine("Монстера;Monstera deliciosa;Araceae;BRIGHT_INDIRECT;7;5;8;12;EASY;true")
+        val species = SpeciesCsvParser.parseLine(
+            "Монстера;Monstera deliciosa;Araceae;BRIGHT_INDIRECT;7;5;8;12;EASY;true",
+        )
         assertEquals("Монстера", species.name)
         assertEquals("Monstera deliciosa", species.latinName)
         assertEquals(PlantCareDatabase.familyId("Araceae"), species.categoryId)
         assertEquals(LightLevel.BRIGHT_INDIRECT, species.light)
-        assertEquals(listOf(7, 5, 8, 12), listOf(species.waterSpringDays, species.waterSummerDays, species.waterAutumnDays, species.waterWinterDays))
+        assertEquals(
+            listOf(7, 5, 8, 12),
+            listOf(species.waterSpringDays, species.waterSummerDays, species.waterAutumnDays, species.waterWinterDays),
+        )
         assertEquals(Difficulty.EASY, species.difficulty)
         assertTrue(species.toxicToPets)
     }
@@ -51,7 +56,7 @@ class SpeciesCsvParserTest {
         val lines = sequenceOf(
             "name;latinName;family;light;spring;summer;autumn;winter;difficulty;toxicToPets",
             "",
-            "Мента;Mentha spicata;Lamiaceae;FULL_SUN;2;1;3;5;EASY;true"
+            "Мента;Mentha spicata;Lamiaceae;FULL_SUN;2;1;3;5;EASY;true",
         )
         assertEquals(1, SpeciesCsvParser.parse(lines).size)
     }

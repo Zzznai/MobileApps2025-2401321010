@@ -17,7 +17,7 @@ import java.time.LocalDate
 class PlantDetailViewModel(
     private val repository: PlantRepository,
     private val calculator: WateringCalculator = WateringCalculator(),
-    private val today: () -> LocalDate = { LocalDate.now() }
+    private val today: () -> LocalDate = { LocalDate.now() },
 ) : ViewModel() {
     private val plantId = MutableLiveData<Long>()
 

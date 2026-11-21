@@ -17,7 +17,7 @@ import com.naim.plantcare.data.entity.PlantSpecies
 @Database(
     entities = [Plant::class, PlantCategory::class, PlantSpecies::class],
     version = 4,
-    exportSchema = false
+    exportSchema = false,
 )
 @TypeConverters(Converters::class)
 abstract class PlantCareDatabase : RoomDatabase() {
@@ -53,7 +53,7 @@ abstract class PlantCareDatabase : RoomDatabase() {
             PRESET_CATEGORIES.forEach { category ->
                 db.execSQL(
                     "INSERT INTO plants_cat (name, latinName, wateringIntervalDays) VALUES (?, ?, ?)",
-                    arrayOf(category.name, category.latinName, category.wateringIntervalDays)
+                    arrayOf(category.name, category.latinName, category.wateringIntervalDays),
                 )
             }
             val species = context.assets.open(SpeciesCsvParser.ASSET_FILE).bufferedReader().useLines {
@@ -74,8 +74,8 @@ abstract class PlantCareDatabase : RoomDatabase() {
                         item.waterAutumnDays,
                         item.waterWinterDays,
                         item.difficulty.name,
-                        if (item.toxicToPets) 1 else 0
-                    )
+                        if (item.toxicToPets) 1 else 0,
+                    ),
                 )
             }
         }
@@ -83,7 +83,7 @@ abstract class PlantCareDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: PlantCareDatabase? = null
+        private var instance: PlantCareDatabase? = null
 
         val PRESET_CATEGORIES = listOf(
             PlantCategory(name = "Ароидни", latinName = "Araceae", wateringIntervalDays = 7),
@@ -130,7 +130,7 @@ abstract class PlantCareDatabase : RoomDatabase() {
             PlantCategory(name = "Птерисови", latinName = "Pteridaceae", wateringIntervalDays = 3),
             PlantCategory(name = "Асплениеви", latinName = "Aspleniaceae", wateringIntervalDays = 5),
             PlantCategory(name = "Многоножкови", latinName = "Polypodiaceae", wateringIntervalDays = 6),
-            PlantCategory(name = "Давалиеви", latinName = "Davalliaceae", wateringIntervalDays = 4)
+            PlantCategory(name = "Давалиеви", latinName = "Davalliaceae", wateringIntervalDays = 4),
         )
 
         fun familyId(latinName: String): Long {
@@ -145,18 +145,17 @@ abstract class PlantCareDatabase : RoomDatabase() {
             }
         }
 
-        fun getInstance(context: Context): PlantCareDatabase =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: Room.databaseBuilder(
-                    context.applicationContext,
-                    PlantCareDatabase::class.java,
-                    "plantcare.db"
-                )
-                    .addCallback(PrepopulateCallback(context.applicationContext))
-                    .addMigrations(MIGRATION_3_4)
-                    .fallbackToDestructiveMigrationFrom(true, 1, 2)
-                    .build()
-                    .also { INSTANCE = it }
-            }
+        fun getInstance(context: Context): PlantCareDatabase = instance ?: synchronized(this) {
+            instance ?: Room.databaseBuilder(
+                context.applicationContext,
+                PlantCareDatabase::class.java,
+                "plantcare.db",
+            )
+                .addCallback(PrepopulateCallback(context.applicationContext))
+                .addMigrations(MIGRATION_3_4)
+                .fallbackToDestructiveMigrationFrom(true, 1, 2)
+                .build()
+                .also { instance = it }
+        }
     }
 }

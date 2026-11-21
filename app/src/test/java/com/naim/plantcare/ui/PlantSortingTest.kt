@@ -20,7 +20,7 @@ class PlantSortingTest {
             daysUntilWatering > 0 -> WateringStatus.InDays(daysUntilWatering)
             daysUntilWatering == 0L -> WateringStatus.Today
             else -> WateringStatus.Overdue(-daysUntilWatering)
-        }
+        },
     )
 
     private fun sortedNames(vararg items: PlantItem) =
@@ -33,7 +33,7 @@ class PlantSortingTest {
             item("Босилек", 0),
             item("Орхидея", -3),
             item("Кактус", 10),
-            item("Монстера", -1)
+            item("Монстера", -1),
         )
         assertEquals(listOf("Орхидея", "Монстера", "Босилек", "Фикус", "Кактус"), names)
     }
@@ -44,7 +44,7 @@ class PlantSortingTest {
             item("Фикус", 2),
             item("Алое", 2),
             item("Монстера", 2),
-            item("Босилек", 2)
+            item("Босилек", 2),
         )
         assertEquals(listOf("Алое", "Босилек", "Монстера", "Фикус"), names)
     }
@@ -54,7 +54,7 @@ class PlantSortingTest {
         val names = sortedNames(
             item("монстера", 0),
             item("Алое", 0),
-            item("босилек", 0)
+            item("босилек", 0),
         )
         assertEquals(listOf("Алое", "босилек", "монстера"), names)
     }
@@ -63,7 +63,7 @@ class PlantSortingTest {
     fun dateWinsOverName() {
         val names = sortedNames(
             item("Алое", 5),
-            item("Явор", 1)
+            item("Явор", 1),
         )
         assertEquals(listOf("Явор", "Алое"), names)
     }

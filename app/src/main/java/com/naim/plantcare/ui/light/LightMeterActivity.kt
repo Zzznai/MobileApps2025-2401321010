@@ -25,7 +25,9 @@ import com.naim.plantcare.logic.LightVerdict
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class LightMeterActivity : AppCompatActivity(), SensorEventListener {
+class LightMeterActivity :
+    AppCompatActivity(),
+    SensorEventListener {
     companion object {
         const val EXTRA_PLANT_NAME = "com.naim.plantcare.EXTRA_PLANT_NAME"
         const val EXTRA_LIGHT_LEVEL = "com.naim.plantcare.EXTRA_LIGHT_LEVEL"
@@ -142,8 +144,18 @@ class LightMeterActivity : AppCompatActivity(), SensorEventListener {
         }
         val (textRes, containerRes, onRes) = when (verdict) {
             LightVerdict.GOOD -> Triple(R.string.light_verdict_good, R.color.status_ok_container, R.color.status_ok_on)
-            LightVerdict.TOO_DARK -> Triple(R.string.light_verdict_dark, R.color.status_overdue_container, R.color.status_overdue_on)
-            LightVerdict.TOO_BRIGHT -> Triple(R.string.light_verdict_bright, R.color.status_today_container, R.color.status_today_on)
+
+            LightVerdict.TOO_DARK -> Triple(
+                R.string.light_verdict_dark,
+                R.color.status_overdue_container,
+                R.color.status_overdue_on,
+            )
+
+            LightVerdict.TOO_BRIGHT -> Triple(
+                R.string.light_verdict_bright,
+                R.color.status_today_container,
+                R.color.status_today_on,
+            )
         }
         cardVerdict.visibility = View.VISIBLE
         cardVerdict.setCardBackgroundColor(ContextCompat.getColor(this, containerRes))

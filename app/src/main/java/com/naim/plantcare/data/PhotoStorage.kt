@@ -20,8 +20,7 @@ class PhotoStorage(context: Context) : PhotoFiles {
 
     override fun newPhotoFile(): File = File(directory, "plant_${UUID.randomUUID()}.jpg")
 
-    fun uriFor(file: File): Uri =
-        FileProvider.getUriForFile(appContext, "${appContext.packageName}.fileprovider", file)
+    fun uriFor(file: File): Uri = FileProvider.getUriForFile(appContext, "${appContext.packageName}.fileprovider", file)
 
     override fun copyFrom(source: Uri): File? {
         val target = newPhotoFile()

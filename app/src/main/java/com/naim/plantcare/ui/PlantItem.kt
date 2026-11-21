@@ -14,7 +14,7 @@ data class PlantItem(
     val species: PlantSpecies?,
     val wateringDays: Int,
     val nextWatering: LocalDate,
-    val status: WateringStatus
+    val status: WateringStatus,
 ) {
     companion object {
         fun from(details: PlantWithDetails, calculator: WateringCalculator) = PlantItem(
@@ -23,7 +23,7 @@ data class PlantItem(
             species = details.species,
             wateringDays = calculator.wateringDays(details),
             nextWatering = calculator.nextWatering(details),
-            status = calculator.statusOf(details)
+            status = calculator.statusOf(details),
         )
     }
 }

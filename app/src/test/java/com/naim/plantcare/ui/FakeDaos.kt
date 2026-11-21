@@ -35,17 +35,14 @@ class FakeSpeciesDao(species: List<PlantSpecies>) : SpeciesDao {
     }
 }
 
-class FakePlantDao(
-    private val categories: List<PlantCategory>,
-    private val species: List<PlantSpecies>
-) : PlantDao {
+class FakePlantDao(private val categories: List<PlantCategory>, private val species: List<PlantSpecies>) : PlantDao {
     private val plants = MutableLiveData<List<Plant>>(emptyList())
     private var nextId = 1L
 
     private fun withDetails(plant: Plant) = PlantWithDetails(
         plant,
         categories.firstOrNull { it.id == plant.categoryId },
-        species.firstOrNull { it.id == plant.speciesId }
+        species.firstOrNull { it.id == plant.speciesId },
     )
 
     override suspend fun insert(plant: Plant): Long {

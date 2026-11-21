@@ -13,16 +13,16 @@ import java.time.LocalDate
             entity = PlantCategory::class,
             parentColumns = ["id"],
             childColumns = ["categoryId"],
-            onDelete = ForeignKey.SET_NULL
+            onDelete = ForeignKey.SET_NULL,
         ),
         ForeignKey(
             entity = PlantSpecies::class,
             parentColumns = ["id"],
             childColumns = ["speciesId"],
-            onDelete = ForeignKey.SET_NULL
-        )
+            onDelete = ForeignKey.SET_NULL,
+        ),
     ],
-    indices = [Index("categoryId"), Index("speciesId")]
+    indices = [Index("categoryId"), Index("speciesId")],
 )
 data class Plant(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
@@ -32,5 +32,5 @@ data class Plant(
     val categoryId: Long?,
     val speciesId: Long? = null,
     val customWateringDays: Int? = null,
-    val photoPath: String? = null
+    val photoPath: String? = null,
 )

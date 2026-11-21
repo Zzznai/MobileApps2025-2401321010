@@ -27,14 +27,14 @@ class WateringCalculatorTest {
         waterAutumnDays = 8,
         waterWinterDays = 12,
         difficulty = Difficulty.EASY,
-        toxicToPets = true
+        toxicToPets = true,
     )
 
     private fun details(
         lastWatered: LocalDate,
         species: PlantSpecies? = monstera,
         category: PlantCategory? = tropical,
-        custom: Int? = null
+        custom: Int? = null,
     ) = PlantWithDetails(
         plant = Plant(
             id = 1,
@@ -43,10 +43,10 @@ class WateringCalculatorTest {
             lastWatered = lastWatered,
             categoryId = category?.id,
             speciesId = species?.id,
-            customWateringDays = custom
+            customWateringDays = custom,
         ),
         category = category,
-        species = species
+        species = species,
     )
 
     @Test

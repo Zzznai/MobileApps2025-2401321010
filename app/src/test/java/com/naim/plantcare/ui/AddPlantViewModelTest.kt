@@ -39,7 +39,11 @@ class AddPlantViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        repository = PlantRepository(FakePlantDao(categories, species), FakeCategoryDao(categories), FakeSpeciesDao(species))
+        repository = PlantRepository(
+            FakePlantDao(categories, species),
+            FakeCategoryDao(categories),
+            FakeSpeciesDao(species),
+        )
         viewModel = AddPlantViewModel(repository) { today }
         viewModel.species.awaitValue()
     }

@@ -13,11 +13,10 @@ class WateringCalculator(private val today: () -> LocalDate = { LocalDate.now() 
 
     fun currentSeason(): Season = Season.of(today())
 
-    fun wateringDays(details: PlantWithDetails): Int =
-        details.plant.customWateringDays
-            ?: details.species?.wateringDays(Season.of(details.plant.lastWatered))
-            ?: details.category?.wateringIntervalDays
-            ?: DEFAULT_WATERING_DAYS
+    fun wateringDays(details: PlantWithDetails): Int = details.plant.customWateringDays
+        ?: details.species?.wateringDays(Season.of(details.plant.lastWatered))
+        ?: details.category?.wateringIntervalDays
+        ?: DEFAULT_WATERING_DAYS
 
     fun nextWatering(details: PlantWithDetails): LocalDate =
         details.plant.lastWatered.plusDays(wateringDays(details).toLong())

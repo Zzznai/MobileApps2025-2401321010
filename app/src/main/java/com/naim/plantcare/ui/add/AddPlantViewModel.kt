@@ -1,6 +1,7 @@
 package com.naim.plantcare.ui.add
 
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +22,7 @@ import java.time.LocalDate
 class AddPlantViewModel(
     private val repository: PlantRepository,
     private val photos: PhotoFiles? = null,
-    private val today: () -> LocalDate = { LocalDate.now() }
+    private val today: () -> LocalDate = { LocalDate.now() },
 ) : ViewModel() {
     val species: LiveData<List<PlantSpecies>> = repository.species
 
@@ -74,6 +75,7 @@ class AddPlantViewModel(
         }
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun setPhoto(path: String) {
         discardUnsavedPhoto()
         _photoPath.value = path
@@ -89,18 +91,17 @@ class AddPlantViewModel(
         if (current != null && current != originalPhoto) photos?.delete(current)
     }
 
-    fun findSpecies(label: String): PlantSpecies? =
-        species.value?.firstOrNull { speciesLabel(it) == label.trim() }
+    fun findSpecies(label: String): PlantSpecies? = species.value?.firstOrNull { speciesLabel(it) == label.trim() }
 
-    fun currentWateringDays(species: PlantSpecies): Int =
-        species.wateringDays(Season.of(_lastWatered.value ?: today()))
+    fun currentWateringDays(species: PlantSpecies): Int = species.wateringDays(Season.of(_lastWatered.value ?: today()))
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun buildPlant(name: String, species: PlantSpecies, customDays: Int?): Plant {
         val base = editing ?: Plant(
             name = "",
             species = "",
             lastWatered = today(),
-            categoryId = null
+            categoryId = null,
         )
         return base.copy(
             name = name.trim(),
@@ -109,7 +110,7 @@ class AddPlantViewModel(
             categoryId = species.categoryId,
             speciesId = species.id,
             customWateringDays = customDays,
-            photoPath = _photoPath.value
+            photoPath = _photoPath.value,
         )
     }
 
@@ -140,10 +141,7 @@ class AddPlantViewModel(
         }
     }
 
-    class Factory(
-        private val repository: PlantRepository,
-        private val photos: PhotoFiles
-    ) : ViewModelProvider.Factory {
+    class Factory(private val repository: PlantRepository, private val photos: PhotoFiles) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AddPlantViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
